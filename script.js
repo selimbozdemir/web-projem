@@ -862,7 +862,7 @@ const vehicles = [
     id: 78, cat: "motor",
     name: "Indian Scout Bobber",
     price: "950.000 ₺",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL6BpZ1f6qJr5616NeDHU9eCo5qG7oSK4CGg&s",
+    img: "https://www.indianmotorcycle.com.tr/fileadmin/templates/model_26/features26/scout-1250/scout-bobber/f2-1.jpg",
     specs: {
       "Yıl": "2024", "Km": "0 km", "Motor": "1133cc Thunder Stroke V-Twin",
       "Güç": "100 HP", "Vites": "6 İleri", "Yakıt": "Benzin",
@@ -873,7 +873,7 @@ const vehicles = [
     id: 79, cat: "motor",
     name: "Yamaha TMAX 560",
     price: "520.000 ₺",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8EHLaQtYtuGVNb2CLIurYSTPZ2P0_Xhg9BQ&s",
+    img: "https://cdn2.yamaha-motor.eu/prod/product-assets/2026/XP500ADX/2026-Yamaha-XP500ADX-EU-Ceramic_Grey-360-Degrees-001-03_Mobile.jpg",
     specs: {
       "Yıl": "2024", "Km": "3.400 km", "Motor": "562cc 2-Silindir",
       "Güç": "47 HP", "Vites": "CVT Otomatik", "Yakıt": "Benzin",
