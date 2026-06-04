@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VehicleHub – Araç Galerisi</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">VEHICLE<span>HUB</span></div>
+    <nav>
+      <button class="nav-btn active" data-cat="all">Tümü</button>
+      <button class="nav-btn" data-cat="araba">🚗 Arabalar</button>
+      <button class="nav-btn" data-cat="tir">🚛 Tırlar</button>
+      <button class="nav-btn" data-cat="motor">🏍️ Motorlar</button>
+    </nav>
+    <div class="header-sub">Türkiye'nin En Büyük Araç Galerisi</div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Her Araca<br/><span>En İyi Fiyat</span></h1>
+      <p>Araba, tır ve motor kategorilerinde yüzlerce araç sizi bekliyor.</p>
+    </div>
+    <div class="hero-stats">
+      <div><strong>300+</strong><span>Araç</span></div>
+      <div><strong>3</strong><span>Kategori</span></div>
+      <div><strong>%100</strong><span>Güvenli</span></div>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Araç ara... (örn: BMW, Volvo, Honda)" />
+    <button onclick="filterBySearch()">🔍 Ara</button>
+  </div>
+
+  <!-- GRID -->
+  <main>
+    <div class="section-title" id="sectionTitle">Tüm Araçlar</div>
+    <div class="grid" id="carGrid"></div>
+  </main>
+
+  <!-- MODAL – DETAY -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+      <div class="modal-img-wrap">
+        <img id="modalImg" src="" alt=""/>
+      </div>
+      <div class="modal-body">
+        <div class="modal-badge" id="modalCat"></div>
+        <h2 id="modalTitle"></h2>
+        <p class="modal-price" id="modalPrice"></p>
+        <div class="specs" id="modalSpecs"></div>
+        <button class="order-btn" onclick="openOrder()">📋 Sipariş Oluştur</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL – SİPARİŞ -->
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal modal-order">
+      <button class="modal-close" onclick="closeModal('orderModal')">✕</button>
+      <h2>Sipariş Formu</h2>
+      <p id="orderVehicleName" class="order-vehicle-name"></p>
+      <div class="form-group">
+        <label>Ad</label>
+        <input type="text" id="firstName" placeholder="Adınız"/>
+      </div>
+      <div class="form-group">
+        <label>Soyad</label>
+        <input type="text" id="lastName" placeholder="Soyadınız"/>
+      </div>
+      <div class="form-group">
+        <label>TC Kimlik No</label>
+        <input type="text" id="tcNo" placeholder="12345678901" maxlength="11"/>
+      </div>
+      <div class="form-group">
+        <label>Telefon</label>
+        <input type="tel" id="phone" placeholder="05XX XXX XX XX"/>
+      </div>
+      <div class="form-group">
+        <label>E-posta</label>
+        <input type="email" id="email" placeholder="ornek@mail.com"/>
+      </div>
+      <button class="order-btn" onclick="submitOrder()">✅ Siparişi Onayla</button>
+    </div>
+  </div>
+
+  <!-- MODAL – BAŞARI -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal modal-success">
+      <div class="success-icon">✅</div>
+      <h2>Sipariş Alındı!</h2>
+      <p id="successMsg"></p>
+      <button class="order-btn" onclick="closeModal('successModal')">Tamam</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 VehicleHub — Tüm hakları saklıdır.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
