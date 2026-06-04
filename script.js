@@ -22,7 +22,7 @@ const vehicles = [
     id: 2, cat: "araba",
     name: "Mercedes-Benz C200",
     price: "3.850.000 ₺",
-    img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80",
+    img: "https://jarviscdn-prod.azureedge.net/jarvis-files-container/Modified/vehicle/652898/06ard575-1_864_47_4_16_9_4_2026.JPEG",
     specs: {
       "Yıl": "2024", "Km": "0 km", "Motor": "1.5L 4-Silindir Turbo",
       "Güç": "204 HP", "Vites": "9G-Tronic", "Yakıt": "Benzin",
