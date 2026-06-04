@@ -55,7 +55,7 @@ const vehicles = [
     id: 5, cat: "araba",
     name: "Porsche 911 Carrera",
     price: "11.900.000 ₺",
-    img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80",
+    img: "https://arabam-blog.mncdn.com/wp-content/uploads/2022/10/2023-porsche-911-carrera-t-in-gulf-blue.jpg",
     specs: {
       "Yıl": "2024", "Km": "0 km", "Motor": "3.0L Boxer-6 Turbo",
       "Güç": "385 HP", "Vites": "8 PDK", "Yakıt": "Benzin",
@@ -132,7 +132,7 @@ const vehicles = [
     id: 12, cat: "araba",
     name: "Peugeot 308 GT",
     price: "1.480.000 ₺",
-    img: "https://basin.peugeot.com.tr/data/2023/1117/main.jpg",
+    img: "https://www.peugeot.com.tr/content/dam/peugeot/turkey/b2c/our-range/308/2025/desktop/4.png?imwidth=768",
     specs: {
       "Yıl": "2023", "Km": "22.000 km", "Motor": "1.6L Turbo",
       "Güç": "225 HP", "Vites": "8 EAT8", "Yakıt": "Benzin",
@@ -519,7 +519,7 @@ const vehicles = [
     id: 47, cat: "tir",
     name: "Mercedes Arocs 4145",
     price: "8.100.000 ₺",
-    img: "https://www.lectura-specs.com/models/renamed/detail_max_retina/kati-sasiler-arocs-4145-k-8x4-mercedes-benz.jpg",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3YMSvdhyhgrPUjIY8qbmnbbVQT8O36p78xQ&s",
     specs: {
       "Yıl": "2024", "Km": "0 km", "Motor": "10.7L Dizel",
       "Güç": "450 HP", "Vites": "PowerShift 3", "Dorse": "Beton Mikseri",
@@ -862,7 +862,7 @@ const vehicles = [
     id: 78, cat: "motor",
     name: "Indian Scout Bobber",
     price: "950.000 ₺",
-    img: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL6BpZ1f6qJr5616NeDHU9eCo5qG7oSK4CGg&s",
     specs: {
       "Yıl": "2024", "Km": "0 km", "Motor": "1133cc Thunder Stroke V-Twin",
       "Güç": "100 HP", "Vites": "6 İleri", "Yakıt": "Benzin",
