@@ -1,474 +1,214 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VehicleHub – Araç Galerisi</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <style>
-/* ===== RESET & BASE ===== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #0d0d0d; --bg2: #161616; --bg3: #1f1f1f;
-  --accent: #e8ff00; --accent2: #ff6b00; --text: #f0f0f0;
-  --muted: #888; --border: #2a2a2a; --radius: 12px;
-  --font-head: 'Bebas Neue', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --red: #ff4444; --green: #44ff88; --blue: #64b4ff;
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VehicleHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d0d;--bg2:#161616;--bg3:#1f1f1f;
+  --accent:#e8ff00;--accent2:#ff6b00;--text:#f0f0f0;
+  --muted:#888;--border:#2a2a2a;--radius:12px;
+  --font-head:'Bebas Neue',sans-serif;--font-body:'DM Sans',sans-serif;
+  --red:#ff4444;--green:#44ff88;--blue:#64b4ff;
 }
-body { background: var(--bg); color: var(--text); font-family: var(--font-body); min-height: 100vh; }
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh}
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px 40px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.logo{font-family:var(--font-head);font-size:28px;letter-spacing:2px}.logo span{color:var(--accent)}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:14px;cursor:pointer;transition:all .2s}
+.nav-btn:hover,.nav-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+.admin-toggle-btn{background:transparent;border:1px solid var(--accent2);color:var(--accent2);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:14px;cursor:pointer;transition:all .2s;font-weight:600}
+.admin-toggle-btn:hover,.admin-toggle-btn.admin-active{background:var(--accent2);color:#fff}
+.header-sub{font-size:12px;color:var(--muted);letter-spacing:1px}
+.hero{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;padding:60px 40px 40px;background:linear-gradient(135deg,#111 0%,#1a1a00 100%);border-bottom:1px solid var(--border)}
+.hero-text h1{font-family:var(--font-head);font-size:72px;line-height:1;letter-spacing:2px}
+.hero-text h1 span{color:var(--accent)}
+.hero-text p{color:var(--muted);font-size:16px;margin-top:12px}
+.hero-stats{display:flex;gap:40px}
+.hero-stats div{text-align:center;display:flex;flex-direction:column}
+.hero-stats strong{font-family:var(--font-head);font-size:40px;color:var(--accent)}
+.hero-stats span{font-size:13px;color:var(--muted)}
+.search-bar{display:flex;gap:10px;padding:24px 40px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.search-bar input{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:12px 18px;border-radius:var(--radius);font-family:var(--font-body);font-size:15px;outline:none;transition:border .2s}
+.search-bar input:focus{border-color:var(--accent)}
+.search-bar button{background:var(--accent);color:#000;border:none;padding:12px 24px;border-radius:var(--radius);font-weight:600;cursor:pointer;font-family:var(--font-body);font-size:14px;transition:opacity .2s}
+.search-bar button:hover{opacity:.85}
+main{padding:32px 40px 60px}
+.section-title{font-family:var(--font-head);font-size:36px;letter-spacing:2px;color:var(--text);margin-bottom:24px;border-left:4px solid var(--accent);padding-left:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(232,255,0,.08);border-color:var(--accent)}
+.card-img{width:100%;height:200px;object-fit:cover;display:block;background:var(--bg3)}
+.card-body{padding:16px}
+.card-cat{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:50px;display:inline-block;margin-bottom:8px}
+.cat-araba{background:rgba(232,255,0,.15);color:var(--accent)}
+.cat-tir{background:rgba(255,107,0,.15);color:var(--accent2)}
+.cat-motor{background:rgba(100,180,255,.15);color:#64b4ff}
+.card h3{font-family:var(--font-head);font-size:22px;letter-spacing:1px;margin-bottom:4px}
+.card-price{font-size:18px;font-weight:600;color:var(--accent);margin-bottom:10px}
+.card-meta{display:flex;flex-wrap:wrap;gap:6px}
+.tag{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:12px;color:var(--muted)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:720px;max-height:90vh;overflow-y:auto;position:relative;animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--bg3);border:1px solid var(--border);color:var(--text);width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer;z-index:10;transition:background .2s}
+.modal-close:hover{background:#333}
+.modal-img-wrap img{width:100%;height:320px;object-fit:cover;border-radius:16px 16px 0 0;display:block}
+.modal-body{padding:24px 28px 28px}
+.modal-badge{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 14px;border-radius:50px;display:inline-block;margin-bottom:10px}
+.modal-body h2{font-family:var(--font-head);font-size:36px;letter-spacing:2px;margin-bottom:4px}
+.modal-price{font-size:26px;font-weight:700;color:var(--accent);margin-bottom:20px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.spec-item{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.spec-item .spec-label{font-size:11px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.spec-item .spec-val{font-size:15px;font-weight:500}
+.order-btn{width:100%;background:var(--accent);color:#000;border:none;padding:15px;border-radius:var(--radius);font-size:16px;font-weight:700;font-family:var(--font-body);cursor:pointer;transition:opacity .2s;letter-spacing:.5px}
+.order-btn:hover{opacity:.85}
+.modal-order{max-width:480px;padding:36px 32px}
+.modal-order h2{font-family:var(--font-head);font-size:32px;letter-spacing:2px;margin-bottom:6px}
+.order-vehicle-name{color:var(--accent);font-weight:600;font-size:15px;margin-bottom:20px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;color:var(--muted);margin-bottom:5px;font-weight:500}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:11px 14px;border-radius:8px;font-family:var(--font-body);font-size:14px;outline:none;transition:border .2s}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent)}
+.form-group select option{background:var(--bg3)}
+.modal-success{max-width:400px;padding:48px 32px;text-align:center}
+.success-icon{font-size:56px;margin-bottom:16px}
+.modal-success h2{font-family:var(--font-head);font-size:32px;margin-bottom:10px;letter-spacing:1px}
+.modal-success p{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:24px}
+footer{text-align:center;padding:24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 
-/* ===== HEADER ===== */
-header {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 12px; padding: 18px 40px;
-  background: var(--bg2); border-bottom: 1px solid var(--border);
-  position: sticky; top: 0; z-index: 100;
-}
-.logo { font-family: var(--font-head); font-size: 28px; letter-spacing: 2px; }
-.logo span { color: var(--accent); }
-nav { display: flex; gap: 8px; flex-wrap: wrap; }
-.nav-btn {
-  background: transparent; border: 1px solid var(--border); color: var(--muted);
-  padding: 8px 18px; border-radius: 50px; font-family: var(--font-body);
-  font-size: 14px; cursor: pointer; transition: all 0.2s;
-}
-.nav-btn:hover, .nav-btn.active {
-  background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600;
-}
-.admin-toggle-btn {
-  background: transparent; border: 1px solid var(--accent2); color: var(--accent2);
-  padding: 8px 18px; border-radius: 50px; font-family: var(--font-body);
-  font-size: 14px; cursor: pointer; transition: all 0.2s; font-weight: 600;
-}
-.admin-toggle-btn:hover, .admin-toggle-btn.admin-active {
-  background: var(--accent2); color: #fff;
-}
-.header-sub { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
+/* LOADING */
+#loadingScreen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.loading-logo{font-family:var(--font-head);font-size:48px;letter-spacing:4px}.loading-logo span{color:var(--accent)}
+.loading-bar{width:200px;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.loading-bar-inner{width:0%;height:100%;background:var(--accent);border-radius:2px;animation:loadBar 1.2s ease forwards}
+@keyframes loadBar{to{width:100%}}
+.loading-text{font-size:13px;color:var(--muted);letter-spacing:2px}
 
-/* ===== HERO ===== */
-.hero {
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 24px; padding: 60px 40px 40px;
-  background: linear-gradient(135deg, #111 0%, #1a1a00 100%);
-  border-bottom: 1px solid var(--border);
+/* ADMIN */
+#adminPanel{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);flex-direction:column;animation:slideIn .3s ease}
+#adminPanel.open{display:flex}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;background:var(--bg2);border-bottom:2px solid var(--accent2);flex-shrink:0}
+.admin-logo{font-family:var(--font-head);font-size:26px;letter-spacing:2px}.admin-logo span{color:var(--accent2)}
+.admin-header-right{display:flex;gap:12px;align-items:center}
+.admin-close-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:8px;cursor:pointer;font-family:var(--font-body);font-size:13px;transition:all .2s}
+.admin-close-btn:hover{border-color:var(--red);color:var(--red)}
+.admin-layout{display:flex;flex:1;overflow:hidden}
+.admin-sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);padding:24px 0;flex-shrink:0;overflow-y:auto}
+.admin-sidebar-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:0 20px 12px;font-weight:600}
+.admin-nav-item{display:flex;align-items:center;gap:10px;padding:12px 20px;cursor:pointer;font-size:14px;color:var(--muted);transition:all .2s;border-left:3px solid transparent;font-weight:500}
+.admin-nav-item:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.admin-nav-item.active{color:var(--accent2);border-left-color:var(--accent2);background:rgba(255,107,0,.06)}
+.nav-icon{font-size:18px}
+.sidebar-divider{border:none;border-top:1px solid var(--border);margin:12px 0}
+.admin-content{flex:1;overflow-y:auto;padding:32px}
+.admin-section{display:none}.admin-section.active{display:block}
+.admin-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.admin-section-title{font-family:var(--font-head);font-size:32px;letter-spacing:2px}.admin-section-title span{color:var(--accent2)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;transition:border-color .2s}
+.stat-card:hover{border-color:var(--accent2)}
+.stat-card-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.stat-card-value{font-family:var(--font-head);font-size:40px;line-height:1}
+.stat-card-value.yellow{color:var(--accent)}.stat-card-value.orange{color:var(--accent2)}.stat-card-value.blue{color:var(--blue)}.stat-card-value.green{color:var(--green)}
+.stat-card-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.table-toolbar{display:flex;gap:12px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.table-search{flex:1;min-width:200px;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:8px;font-family:var(--font-body);font-size:14px;outline:none;transition:border .2s}
+.table-search:focus{border-color:var(--accent2)}
+.filter-select{background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:8px;font-family:var(--font-body);font-size:14px;cursor:pointer;outline:none}
+.add-btn{background:var(--accent2);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-family:var(--font-body);font-size:14px;font-weight:600;cursor:pointer;transition:opacity .2s;white-space:nowrap}
+.add-btn:hover{opacity:.85}
+.vehicle-table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+.vehicle-table{width:100%;border-collapse:collapse;font-size:14px}
+.vehicle-table thead{background:var(--bg3)}
+.vehicle-table th{padding:12px 16px;text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;white-space:nowrap}
+.vehicle-table td{padding:12px 16px;border-top:1px solid var(--border);vertical-align:middle}
+.vehicle-table tbody tr{transition:background .15s}.vehicle-table tbody tr:hover{background:rgba(255,255,255,.03)}
+.table-img{width:60px;height:44px;object-fit:cover;border-radius:6px;background:var(--bg3)}
+.table-name{font-weight:500}.table-price{color:var(--accent);font-weight:600;font-size:13px}
+.table-actions{display:flex;gap:8px}
+.btn-edit{background:rgba(100,180,255,.15);color:var(--blue);border:1px solid rgba(100,180,255,.3);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font-body);transition:all .2s;font-weight:600}
+.btn-edit:hover{background:rgba(100,180,255,.3)}
+.btn-delete{background:rgba(255,68,68,.12);color:var(--red);border:1px solid rgba(255,68,68,.3);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font-body);transition:all .2s;font-weight:600}
+.btn-delete:hover{background:rgba(255,68,68,.25)}
+.cat-badge{font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;border-radius:50px;white-space:nowrap}
+.empty-table{text-align:center;color:var(--muted);padding:40px;font-size:15px}
+.admin-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:400;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.admin-modal-overlay.open{display:flex}
+.admin-modal{background:var(--bg2);border:1px solid var(--accent2);border-radius:16px;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;position:relative;animation:popIn .3s cubic-bezier(.34,1.56,.64,1);padding:36px 32px}
+.admin-modal h2{font-family:var(--font-head);font-size:30px;letter-spacing:2px;margin-bottom:24px}.admin-modal h2 span{color:var(--accent2)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.admin-form-actions{display:flex;gap:12px;margin-top:24px}
+.btn-save{flex:1;background:var(--accent2);color:#fff;border:none;padding:14px;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--font-body);cursor:pointer;transition:opacity .2s}
+.btn-save:hover{opacity:.85}
+.btn-cancel-form{background:transparent;color:var(--muted);border:1px solid var(--border);padding:14px 24px;border-radius:10px;font-size:15px;font-family:var(--font-body);cursor:pointer;transition:all .2s}
+.btn-cancel-form:hover{border-color:var(--text);color:var(--text)}
+.specs-editor{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:4px}
+.specs-editor-row{display:grid;grid-template-columns:1fr 1fr auto;border-bottom:1px solid var(--border)}
+.specs-editor-row:last-child{border-bottom:none}
+.specs-editor-row input{background:transparent;border:none;border-right:1px solid var(--border);color:var(--text);padding:9px 12px;font-family:var(--font-body);font-size:13px;outline:none;width:100%}
+.specs-editor-row input:focus{background:rgba(255,107,0,.05)}
+.spec-del-btn{background:transparent;border:none;border-left:1px solid var(--border);color:var(--red);padding:0 12px;cursor:pointer;font-size:14px;transition:background .2s}
+.spec-del-btn:hover{background:rgba(255,68,68,.12)}
+.add-spec-btn{background:rgba(255,107,0,.1);color:var(--accent2);border:none;padding:9px 16px;font-family:var(--font-body);font-size:13px;cursor:pointer;transition:background .2s;font-weight:600;width:100%;border-top:1px solid var(--border)}
+.add-spec-btn:hover{background:rgba(255,107,0,.2)}
+.img-preview{width:100%;height:140px;object-fit:cover;border-radius:8px;border:1px solid var(--border);display:none;margin-top:8px}
+.img-preview.show{display:block}
+.confirm-modal{max-width:420px;padding:40px 32px;text-align:center}
+.confirm-modal h3{font-family:var(--font-head);font-size:28px;letter-spacing:1px;margin-bottom:10px}
+.confirm-modal p{color:var(--muted);font-size:14px;margin-bottom:28px;line-height:1.6}
+.confirm-actions{display:flex;gap:12px}
+.btn-confirm-delete{flex:1;background:var(--red);color:#fff;border:none;padding:13px;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--font-body);cursor:pointer;transition:opacity .2s}
+.btn-confirm-delete:hover{opacity:.85}
+.btn-confirm-cancel{flex:1;background:transparent;color:var(--muted);border:1px solid var(--border);padding:13px;border-radius:10px;font-size:15px;font-family:var(--font-body);cursor:pointer;transition:all .2s}
+.btn-confirm-cancel:hover{border-color:var(--text);color:var(--text)}
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px}
+.toast{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:14px 20px;border-radius:10px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.4);animation:toastIn .3s ease;max-width:320px;display:flex;align-items:center;gap:10px}
+.toast.success{border-color:var(--green)}.toast.error{border-color:var(--red)}.toast.info{border-color:var(--accent)}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+#adminLoginOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+#adminLoginOverlay.open{display:flex}
+.admin-login-box{background:var(--bg2);border:1px solid var(--accent2);border-radius:20px;width:100%;max-width:400px;padding:44px 36px;animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
+.admin-login-logo{font-family:var(--font-head);font-size:28px;letter-spacing:3px;text-align:center;margin-bottom:6px}.admin-login-logo span{color:var(--accent2)}
+.admin-login-sub{text-align:center;font-size:13px;color:var(--muted);margin-bottom:32px;letter-spacing:1px}
+.admin-login-box .form-group{margin-bottom:16px}
+.admin-login-box .form-group label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:500;letter-spacing:.5px}
+.admin-login-box .form-group input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:13px 16px;border-radius:10px;font-family:var(--font-body);font-size:15px;outline:none;transition:border .2s}
+.admin-login-box .form-group input:focus{border-color:var(--accent2)}
+.admin-login-btn{width:100%;background:var(--accent2);color:#fff;border:none;padding:15px;border-radius:10px;font-size:15px;font-weight:700;font-family:var(--font-body);cursor:pointer;transition:opacity .2s;margin-top:8px}
+.admin-login-btn:hover{opacity:.85}
+.admin-login-error{background:rgba(255,68,68,.12);border:1px solid rgba(255,68,68,.3);color:var(--red);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:16px;display:none;text-align:center}
+.admin-login-error.show{display:block}
+.admin-login-cancel{width:100%;background:transparent;color:var(--muted);border:1px solid var(--border);padding:11px;border-radius:10px;font-size:14px;font-family:var(--font-body);cursor:pointer;transition:all .2s;margin-top:10px}
+.admin-login-cancel:hover{border-color:var(--text);color:var(--text)}
+.login-icon{text-align:center;font-size:44px;margin-bottom:16px}
+@media(max-width:768px){
+  header{padding:14px 20px}.hero{padding:36px 20px 28px}.hero-text h1{font-size:48px}
+  main{padding:24px 16px 40px}.search-bar{padding:16px}
+  .specs{grid-template-columns:1fr}.modal-body{padding:18px 18px 22px}
+  .modal-img-wrap img{height:220px}.admin-sidebar{width:60px}
+  .admin-sidebar .admin-nav-item span:not(.nav-icon){display:none}
+  .admin-content{padding:20px 16px}.form-row{grid-template-columns:1fr}
 }
-.hero-text h1 { font-family: var(--font-head); font-size: 72px; line-height: 1; letter-spacing: 2px; }
-.hero-text h1 span { color: var(--accent); }
-.hero-text p { color: var(--muted); font-size: 16px; margin-top: 12px; }
-.hero-stats { display: flex; gap: 40px; }
-.hero-stats div { text-align: center; display: flex; flex-direction: column; }
-.hero-stats strong { font-family: var(--font-head); font-size: 40px; color: var(--accent); }
-.hero-stats span { font-size: 13px; color: var(--muted); }
-
-/* ===== SEARCH ===== */
-.search-bar {
-  display: flex; gap: 10px; padding: 24px 40px;
-  background: var(--bg2); border-bottom: 1px solid var(--border);
-}
-.search-bar input {
-  flex: 1; background: var(--bg3); border: 1px solid var(--border); color: var(--text);
-  padding: 12px 18px; border-radius: var(--radius); font-family: var(--font-body);
-  font-size: 15px; outline: none; transition: border 0.2s;
-}
-.search-bar input:focus { border-color: var(--accent); }
-.search-bar button {
-  background: var(--accent); color: #000; border: none; padding: 12px 24px;
-  border-radius: var(--radius); font-weight: 600; cursor: pointer;
-  font-family: var(--font-body); font-size: 14px; transition: opacity 0.2s;
-}
-.search-bar button:hover { opacity: 0.85; }
-
-/* ===== MAIN GRID ===== */
-main { padding: 32px 40px 60px; }
-.section-title {
-  font-family: var(--font-head); font-size: 36px; letter-spacing: 2px;
-  color: var(--text); margin-bottom: 24px;
-  border-left: 4px solid var(--accent); padding-left: 16px;
-}
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-
-/* ===== CARD ===== */
-.card {
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
-  overflow: hidden; cursor: pointer; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-.card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(232,255,0,0.08); border-color: var(--accent); }
-.card-img { width: 100%; height: 200px; object-fit: cover; display: block; background: var(--bg3); }
-.card-body { padding: 16px; }
-.card-cat {
-  font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
-  padding: 3px 10px; border-radius: 50px; display: inline-block; margin-bottom: 8px;
-}
-.cat-araba { background: rgba(232,255,0,0.15); color: var(--accent); }
-.cat-tir    { background: rgba(255,107,0,0.15); color: var(--accent2); }
-.cat-motor  { background: rgba(100,180,255,0.15); color: #64b4ff; }
-.card h3 { font-family: var(--font-head); font-size: 22px; letter-spacing: 1px; margin-bottom: 4px; }
-.card-price { font-size: 18px; font-weight: 600; color: var(--accent); margin-bottom: 10px; }
-.card-meta { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag {
-  background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
-  padding: 3px 9px; font-size: 12px; color: var(--muted);
-}
-
-/* ===== MODAL ===== */
-.modal-overlay {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-  z-index: 200; align-items: center; justify-content: center; padding: 20px;
-  backdrop-filter: blur(6px);
-}
-.modal-overlay.open { display: flex; }
-.modal {
-  background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
-  width: 100%; max-width: 720px; max-height: 90vh; overflow-y: auto;
-  position: relative; animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
-}
-@keyframes popIn { from { transform: scale(0.88); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.modal-close {
-  position: absolute; top: 14px; right: 14px; background: var(--bg3);
-  border: 1px solid var(--border); color: var(--text); width: 36px; height: 36px;
-  border-radius: 50%; font-size: 16px; cursor: pointer; z-index: 10; transition: background 0.2s;
-}
-.modal-close:hover { background: #333; }
-.modal-img-wrap img { width: 100%; height: 320px; object-fit: cover; border-radius: 16px 16px 0 0; display: block; }
-.modal-body { padding: 24px 28px 28px; }
-.modal-badge {
-  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-  padding: 4px 14px; border-radius: 50px; display: inline-block; margin-bottom: 10px;
-}
-.modal-body h2 { font-family: var(--font-head); font-size: 36px; letter-spacing: 2px; margin-bottom: 4px; }
-.modal-price { font-size: 26px; font-weight: 700; color: var(--accent); margin-bottom: 20px; }
-.specs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-.spec-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
-.spec-item .spec-label { font-size: 11px; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px; }
-.spec-item .spec-val { font-size: 15px; font-weight: 500; }
-.order-btn {
-  width: 100%; background: var(--accent); color: #000; border: none;
-  padding: 15px; border-radius: var(--radius); font-size: 16px; font-weight: 700;
-  font-family: var(--font-body); cursor: pointer; transition: opacity 0.2s; letter-spacing: 0.5px;
-}
-.order-btn:hover { opacity: 0.85; }
-
-/* ===== ORDER FORM ===== */
-.modal-order { max-width: 480px; padding: 36px 32px; }
-.modal-order h2 { font-family: var(--font-head); font-size: 32px; letter-spacing: 2px; margin-bottom: 6px; }
-.order-vehicle-name { color: var(--accent); font-weight: 600; font-size: 15px; margin-bottom: 20px; }
-.form-group { margin-bottom: 14px; }
-.form-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 5px; font-weight: 500; }
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text);
-  padding: 11px 14px; border-radius: 8px; font-family: var(--font-body); font-size: 14px;
-  outline: none; transition: border 0.2s;
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
-.form-group select option { background: var(--bg3); }
-.form-group textarea { resize: vertical; min-height: 80px; }
-
-/* ===== SUCCESS ===== */
-.modal-success { max-width: 400px; padding: 48px 32px; text-align: center; }
-.success-icon { font-size: 56px; margin-bottom: 16px; }
-.modal-success h2 { font-family: var(--font-head); font-size: 32px; margin-bottom: 10px; letter-spacing: 1px; }
-.modal-success p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 24px; }
-
-/* ===== FOOTER ===== */
-footer { text-align: center; padding: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
-
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-
-/* =============================================
-   ADMIN PANEL
-   ============================================= */
-#adminPanel {
-  display: none;
-  position: fixed; inset: 0; z-index: 300;
-  background: var(--bg);
-  flex-direction: column;
-  animation: slideIn 0.3s ease;
-}
-#adminPanel.open { display: flex; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Admin Header */
-.admin-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 32px; background: var(--bg2);
-  border-bottom: 2px solid var(--accent2);
-  flex-shrink: 0;
-}
-.admin-logo { font-family: var(--font-head); font-size: 26px; letter-spacing: 2px; }
-.admin-logo span { color: var(--accent2); }
-.admin-header-right { display: flex; gap: 12px; align-items: center; }
-.admin-close-btn {
-  background: transparent; border: 1px solid var(--border); color: var(--muted);
-  padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: var(--font-body);
-  font-size: 13px; transition: all 0.2s;
-}
-.admin-close-btn:hover { border-color: var(--red); color: var(--red); }
-
-/* Admin Layout */
-.admin-layout { display: flex; flex: 1; overflow: hidden; }
-
-/* Admin Sidebar */
-.admin-sidebar {
-  width: 220px; background: var(--bg2); border-right: 1px solid var(--border);
-  padding: 24px 0; flex-shrink: 0; overflow-y: auto;
-}
-.admin-sidebar-title {
-  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--muted); padding: 0 20px 12px; font-weight: 600;
-}
-.admin-nav-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 20px; cursor: pointer; font-size: 14px; color: var(--muted);
-  transition: all 0.2s; border-left: 3px solid transparent;
-  font-weight: 500;
-}
-.admin-nav-item:hover { color: var(--text); background: rgba(255,255,255,0.04); }
-.admin-nav-item.active { color: var(--accent2); border-left-color: var(--accent2); background: rgba(255,107,0,0.06); }
-.admin-nav-item .nav-icon { font-size: 18px; }
-.sidebar-divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
-
-/* Admin Content */
-.admin-content { flex: 1; overflow-y: auto; padding: 32px; }
-.admin-section { display: none; }
-.admin-section.active { display: block; }
-
-/* Admin Section Title */
-.admin-section-header {
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px;
-}
-.admin-section-title { font-family: var(--font-head); font-size: 32px; letter-spacing: 2px; }
-.admin-section-title span { color: var(--accent2); }
-
-/* Stats Cards */
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
-.stat-card {
-  background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 20px 24px; transition: border-color 0.2s;
-}
-.stat-card:hover { border-color: var(--accent2); }
-.stat-card-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.stat-card-value { font-family: var(--font-head); font-size: 40px; line-height: 1; }
-.stat-card-value.yellow { color: var(--accent); }
-.stat-card-value.orange { color: var(--accent2); }
-.stat-card-value.blue { color: var(--blue); }
-.stat-card-value.green { color: var(--green); }
-.stat-card-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-/* Vehicle Table */
-.table-toolbar {
-  display: flex; gap: 12px; align-items: center; margin-bottom: 18px; flex-wrap: wrap;
-}
-.table-search {
-  flex: 1; min-width: 200px; background: var(--bg3); border: 1px solid var(--border);
-  color: var(--text); padding: 10px 14px; border-radius: 8px;
-  font-family: var(--font-body); font-size: 14px; outline: none; transition: border 0.2s;
-}
-.table-search:focus { border-color: var(--accent2); }
-.filter-select {
-  background: var(--bg3); border: 1px solid var(--border); color: var(--text);
-  padding: 10px 14px; border-radius: 8px; font-family: var(--font-body); font-size: 14px;
-  cursor: pointer; outline: none;
-}
-.add-btn {
-  background: var(--accent2); color: #fff; border: none; padding: 10px 20px;
-  border-radius: 8px; font-family: var(--font-body); font-size: 14px;
-  font-weight: 600; cursor: pointer; transition: opacity 0.2s; white-space: nowrap;
-}
-.add-btn:hover { opacity: 0.85; }
-
-.vehicle-table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
-.vehicle-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-.vehicle-table thead { background: var(--bg3); }
-.vehicle-table th {
-  padding: 12px 16px; text-align: left; font-size: 11px; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 1px; font-weight: 600; white-space: nowrap;
-}
-.vehicle-table td { padding: 12px 16px; border-top: 1px solid var(--border); vertical-align: middle; }
-.vehicle-table tbody tr { transition: background 0.15s; }
-.vehicle-table tbody tr:hover { background: rgba(255,255,255,0.03); }
-.table-img { width: 60px; height: 44px; object-fit: cover; border-radius: 6px; background: var(--bg3); }
-.table-name { font-weight: 500; }
-.table-price { color: var(--accent); font-weight: 600; font-size: 13px; }
-.table-actions { display: flex; gap: 8px; }
-.btn-edit {
-  background: rgba(100,180,255,0.15); color: var(--blue); border: 1px solid rgba(100,180,255,0.3);
-  padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
-  font-family: var(--font-body); transition: all 0.2s; font-weight: 600;
-}
-.btn-edit:hover { background: rgba(100,180,255,0.3); }
-.btn-delete {
-  background: rgba(255,68,68,0.12); color: var(--red); border: 1px solid rgba(255,68,68,0.3);
-  padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
-  font-family: var(--font-body); transition: all 0.2s; font-weight: 600;
-}
-.btn-delete:hover { background: rgba(255,68,68,0.25); }
-.cat-badge {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
-  padding: 3px 10px; border-radius: 50px; white-space: nowrap;
-}
-.empty-table { text-align: center; color: var(--muted); padding: 40px; font-size: 15px; }
-
-/* Admin Add/Edit Modal */
-.admin-modal-overlay {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-  z-index: 400; align-items: center; justify-content: center; padding: 20px;
-  backdrop-filter: blur(8px);
-}
-.admin-modal-overlay.open { display: flex; }
-.admin-modal {
-  background: var(--bg2); border: 1px solid var(--accent2); border-radius: 16px;
-  width: 100%; max-width: 680px; max-height: 92vh; overflow-y: auto;
-  position: relative; animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1); padding: 36px 32px;
-}
-.admin-modal h2 { font-family: var(--font-head); font-size: 30px; letter-spacing: 2px; margin-bottom: 24px; }
-.admin-modal h2 span { color: var(--accent2); }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-.admin-form-actions { display: flex; gap: 12px; margin-top: 24px; }
-.btn-save {
-  flex: 1; background: var(--accent2); color: #fff; border: none; padding: 14px;
-  border-radius: 10px; font-size: 15px; font-weight: 700; font-family: var(--font-body);
-  cursor: pointer; transition: opacity 0.2s;
-}
-.btn-save:hover { opacity: 0.85; }
-.btn-cancel-form {
-  background: transparent; color: var(--muted); border: 1px solid var(--border);
-  padding: 14px 24px; border-radius: 10px; font-size: 15px; font-family: var(--font-body);
-  cursor: pointer; transition: all 0.2s;
-}
-.btn-cancel-form:hover { border-color: var(--text); color: var(--text); }
-
-/* Specs editor */
-.specs-editor { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-top: 4px; }
-.specs-editor-row {
-  display: grid; grid-template-columns: 1fr 1fr auto;
-  gap: 0; border-bottom: 1px solid var(--border);
-}
-.specs-editor-row:last-child { border-bottom: none; }
-.specs-editor-row input {
-  background: transparent; border: none; border-right: 1px solid var(--border);
-  color: var(--text); padding: 9px 12px; font-family: var(--font-body); font-size: 13px;
-  outline: none; width: 100%;
-}
-.specs-editor-row input:last-of-type { border-right: none; }
-.specs-editor-row input:focus { background: rgba(255,107,0,0.05); }
-.spec-del-btn {
-  background: transparent; border: none; border-left: 1px solid var(--border);
-  color: var(--red); padding: 0 12px; cursor: pointer; font-size: 14px; transition: background 0.2s;
-}
-.spec-del-btn:hover { background: rgba(255,68,68,0.12); }
-.add-spec-btn {
-  background: rgba(255,107,0,0.1); color: var(--accent2); border: none;
-  padding: 9px 16px; font-family: var(--font-body); font-size: 13px;
-  cursor: pointer; transition: background 0.2s; font-weight: 600; width: 100%;
-  border-top: 1px solid var(--border);
-}
-.add-spec-btn:hover { background: rgba(255,107,0,0.2); }
-
-/* img preview */
-.img-preview-wrap { margin-top: 8px; }
-.img-preview { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); display: none; }
-.img-preview.show { display: block; }
-
-/* Confirm modal */
-.confirm-modal { max-width: 420px; padding: 40px 32px; text-align: center; }
-.confirm-modal h3 { font-family: var(--font-head); font-size: 28px; letter-spacing: 1px; margin-bottom: 10px; }
-.confirm-modal p { color: var(--muted); font-size: 14px; margin-bottom: 28px; line-height: 1.6; }
-.confirm-actions { display: flex; gap: 12px; }
-.btn-confirm-delete {
-  flex: 1; background: var(--red); color: #fff; border: none;
-  padding: 13px; border-radius: 10px; font-size: 15px; font-weight: 700;
-  font-family: var(--font-body); cursor: pointer; transition: opacity 0.2s;
-}
-.btn-confirm-delete:hover { opacity: 0.85; }
-.btn-confirm-cancel {
-  flex: 1; background: transparent; color: var(--muted); border: 1px solid var(--border);
-  padding: 13px; border-radius: 10px; font-size: 15px; font-family: var(--font-body); cursor: pointer; transition: all 0.2s;
-}
-.btn-confirm-cancel:hover { border-color: var(--text); color: var(--text); }
-
-/* Toast */
-.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-.toast {
-  background: var(--bg2); border: 1px solid var(--border); color: var(--text);
-  padding: 14px 20px; border-radius: 10px; font-size: 14px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4); animation: toastIn 0.3s ease;
-  max-width: 320px; display: flex; align-items: center; gap: 10px;
-}
-.toast.success { border-color: var(--green); }
-.toast.error { border-color: var(--red); }
-.toast.info { border-color: var(--accent); }
-@keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  header { padding: 14px 20px; }
-  .hero { padding: 36px 20px 28px; }
-  .hero-text h1 { font-size: 48px; }
-  main { padding: 24px 16px 40px; }
-  .search-bar { padding: 16px; }
-  .specs { grid-template-columns: 1fr; }
-  .modal-body { padding: 18px 18px 22px; }
-  .modal-img-wrap img { height: 220px; }
-  .admin-sidebar { width: 60px; }
-  .admin-sidebar .admin-nav-item span:not(.nav-icon) { display: none; }
-  .admin-content { padding: 20px 16px; }
-  .form-row, .form-row-3 { grid-template-columns: 1fr; }
-}
-
-/* ===== ADMIN LOGIN MODAL ===== */
-#adminLoginOverlay {
-  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92);
-  z-index: 500; align-items: center; justify-content: center; padding: 20px;
-  backdrop-filter: blur(8px);
-}
-#adminLoginOverlay.open { display: flex; }
-.admin-login-box {
-  background: var(--bg2); border: 1px solid var(--accent2); border-radius: 20px;
-  width: 100%; max-width: 400px; padding: 44px 36px;
-  animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  position: relative;
-}
-.admin-login-logo { font-family: var(--font-head); font-size: 28px; letter-spacing: 3px; text-align: center; margin-bottom: 6px; }
-.admin-login-logo span { color: var(--accent2); }
-.admin-login-sub { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 32px; letter-spacing: 1px; }
-.admin-login-box .form-group { margin-bottom: 16px; }
-.admin-login-box .form-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; font-weight: 500; letter-spacing: 0.5px; }
-.admin-login-box .form-group input {
-  width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text);
-  padding: 13px 16px; border-radius: 10px; font-family: var(--font-body); font-size: 15px;
-  outline: none; transition: border 0.2s;
-}
-.admin-login-box .form-group input:focus { border-color: var(--accent2); }
-.admin-login-btn {
-  width: 100%; background: var(--accent2); color: #fff; border: none;
-  padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 700;
-  font-family: var(--font-body); cursor: pointer; transition: opacity 0.2s;
-  margin-top: 8px; letter-spacing: 0.5px;
-}
-.admin-login-btn:hover { opacity: 0.85; }
-.admin-login-error {
-  background: rgba(255,68,68,0.12); border: 1px solid rgba(255,68,68,0.3);
-  color: var(--red); border-radius: 8px; padding: 10px 14px;
-  font-size: 13px; margin-bottom: 16px; display: none; text-align: center;
-}
-.admin-login-error.show { display: block; }
-.admin-login-cancel {
-  width: 100%; background: transparent; color: var(--muted); border: 1px solid var(--border);
-  padding: 11px; border-radius: 10px; font-size: 14px; font-family: var(--font-body);
-  cursor: pointer; transition: all 0.2s; margin-top: 10px;
-}
-.admin-login-cancel:hover { border-color: var(--text); color: var(--text); }
-.login-icon { text-align: center; font-size: 44px; margin-bottom: 16px; }
-  </style>
+</style>
 </head>
 <body>
 
-<!-- HEADER -->
+<div id="loadingScreen">
+  <div class="loading-logo">VEHICLE<span>HUB</span></div>
+  <div class="loading-bar"><div class="loading-bar-inner"></div></div>
+  <div class="loading-text">VERİLER YÜKLENİYOR...</div>
+</div>
+
 <header>
   <div class="logo">VEHICLE<span>HUB</span></div>
   <nav>
@@ -483,32 +223,28 @@ footer { text-align: center; padding: 24px; border-top: 1px solid var(--border);
   </div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-text">
     <h1>Her Araca<br/><span>En İyi Fiyat</span></h1>
     <p>Araba, tır ve motor kategorilerinde yüzlerce araç sizi bekliyor.</p>
   </div>
   <div class="hero-stats">
-    <div><strong id="statTotal">90</strong><span>Araç</span></div>
+    <div><strong id="statTotal">—</strong><span>Araç</span></div>
     <div><strong>3</strong><span>Kategori</span></div>
     <div><strong>%100</strong><span>Güvenli</span></div>
   </div>
 </section>
 
-<!-- SEARCH -->
 <div class="search-bar">
-  <input type="text" id="searchInput" placeholder="Araç ara... (örn: BMW, Volvo, Honda)" />
+  <input type="text" id="searchInput" placeholder="Araç ara... (örn: BMW, Volvo, Honda)"/>
   <button onclick="filterBySearch()">🔍 Ara</button>
 </div>
 
-<!-- GRID -->
 <main>
   <div class="section-title" id="sectionTitle">Tüm Araçlar</div>
   <div class="grid" id="carGrid"></div>
 </main>
 
-<!-- MODAL – DETAY -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
@@ -523,7 +259,6 @@ footer { text-align: center; padding: 24px; border-top: 1px solid var(--border);
   </div>
 </div>
 
-<!-- MODAL – SİPARİŞ -->
 <div class="modal-overlay" id="orderModal">
   <div class="modal modal-order">
     <button class="modal-close" onclick="closeModal('orderModal')">✕</button>
@@ -538,7 +273,6 @@ footer { text-align: center; padding: 24px; border-top: 1px solid var(--border);
   </div>
 </div>
 
-<!-- MODAL – BAŞARI -->
 <div class="modal-overlay" id="successModal">
   <div class="modal modal-success">
     <div class="success-icon">✅</div>
@@ -548,36 +282,22 @@ footer { text-align: center; padding: 24px; border-top: 1px solid var(--border);
   </div>
 </div>
 
-<footer>
-  <p>© 2025 VehicleHub — Tüm hakları saklıdır.</p>
-</footer>
+<footer><p>© 2025 VehicleHub — Tüm hakları saklıdır.</p></footer>
 
-<!-- ADMIN LOGIN MODAL -->
 <div id="adminLoginOverlay">
   <div class="admin-login-box">
     <div class="login-icon">🔐</div>
     <div class="admin-login-logo">VEHICLE<span>HUB</span></div>
     <div class="admin-login-sub">ADMİN PANELİ GİRİŞİ</div>
     <div class="admin-login-error" id="loginError">❌ Kullanıcı adı veya şifre hatalı!</div>
-    <div class="form-group">
-      <label>KULLANICI ADI</label>
-      <input type="text" id="loginUsername" placeholder="Kullanıcı adınızı girin" autocomplete="off" onkeydown="if(event.key==='Enter') doAdminLogin()"/>
-    </div>
-    <div class="form-group">
-      <label>ŞİFRE</label>
-      <input type="password" id="loginPassword" placeholder="Şifrenizi girin" onkeydown="if(event.key==='Enter') doAdminLogin()"/>
-    </div>
+    <div class="form-group"><label>KULLANICI ADI</label><input type="text" id="loginUsername" placeholder="Kullanıcı adınızı girin" autocomplete="off" onkeydown="if(event.key==='Enter')doAdminLogin()"/></div>
+    <div class="form-group"><label>ŞİFRE</label><input type="password" id="loginPassword" placeholder="Şifrenizi girin" onkeydown="if(event.key==='Enter')doAdminLogin()"/></div>
     <button class="admin-login-btn" onclick="doAdminLogin()">🔓 Giriş Yap</button>
     <button class="admin-login-cancel" onclick="closeAdminLogin()">İptal</button>
   </div>
 </div>
 
-<!-- ====================================================
-     ADMIN PANEL
-     ==================================================== -->
 <div id="adminPanel">
-
-  <!-- Admin Header -->
   <div class="admin-header">
     <div class="admin-logo">VEHICLE<span>HUB</span> — ADMİN</div>
     <div class="admin-header-right">
@@ -585,166 +305,70 @@ footer { text-align: center; padding: 24px; border-top: 1px solid var(--border);
       <button class="admin-close-btn" onclick="closeAdmin()">✕ Paneli Kapat</button>
     </div>
   </div>
-
   <div class="admin-layout">
-
-    <!-- Sidebar -->
     <div class="admin-sidebar">
       <div class="admin-sidebar-title">YÖNETİM</div>
-      <div class="admin-nav-item active" data-section="dashboard" onclick="switchAdminSection('dashboard')">
-        <span class="nav-icon">📊</span><span>Dashboard</span>
-      </div>
-      <div class="admin-nav-item" data-section="vehicles" onclick="switchAdminSection('vehicles')">
-        <span class="nav-icon">🚗</span><span>Tüm Araçlar</span>
-      </div>
+      <div class="admin-nav-item active" data-section="dashboard" onclick="switchAdminSection('dashboard')"><span class="nav-icon">📊</span><span>Dashboard</span></div>
+      <div class="admin-nav-item" data-section="vehicles" onclick="switchAdminSection('vehicles')"><span class="nav-icon">🚗</span><span>Tüm Araçlar</span></div>
       <hr class="sidebar-divider"/>
       <div class="admin-sidebar-title">KATEGORİLER</div>
-      <div class="admin-nav-item" data-section="arabalar" onclick="switchAdminSection('arabalar')">
-        <span class="nav-icon">🚗</span><span>Arabalar</span>
-      </div>
-      <div class="admin-nav-item" data-section="tirlar" onclick="switchAdminSection('tirlar')">
-        <span class="nav-icon">🚛</span><span>Tırlar</span>
-      </div>
-      <div class="admin-nav-item" data-section="motorlar" onclick="switchAdminSection('motorlar')">
-        <span class="nav-icon">🏍️</span><span>Motorlar</span>
-      </div>
+      <div class="admin-nav-item" data-section="arabalar" onclick="switchAdminSection('arabalar')"><span class="nav-icon">🚗</span><span>Arabalar</span></div>
+      <div class="admin-nav-item" data-section="tirlar" onclick="switchAdminSection('tirlar')"><span class="nav-icon">🚛</span><span>Tırlar</span></div>
+      <div class="admin-nav-item" data-section="motorlar" onclick="switchAdminSection('motorlar')"><span class="nav-icon">🏍️</span><span>Motorlar</span></div>
     </div>
-
-    <!-- Content -->
     <div class="admin-content">
-
-      <!-- DASHBOARD -->
       <div class="admin-section active" id="section-dashboard">
-        <div class="admin-section-header">
-          <div class="admin-section-title">DASH<span>BOARD</span></div>
-        </div>
+        <div class="admin-section-header"><div class="admin-section-title">DASH<span>BOARD</span></div></div>
         <div class="stats-grid" id="dashStats"></div>
         <div style="font-family:var(--font-head);font-size:22px;letter-spacing:2px;margin-bottom:16px;color:var(--muted)">SON EKLENEN ARAÇLAR</div>
-        <div class="vehicle-table-wrap">
-          <table class="vehicle-table">
-            <thead><tr><th>Görsel</th><th>Araç</th><th>Kategori</th><th>Fiyat</th><th>Yıl</th><th>Km</th></tr></thead>
-            <tbody id="recentTable"></tbody>
-          </table>
-        </div>
+        <div class="vehicle-table-wrap"><table class="vehicle-table"><thead><tr><th>Görsel</th><th>Araç</th><th>Kategori</th><th>Fiyat</th><th>Yıl</th><th>Km</th></tr></thead><tbody id="recentTable"></tbody></table></div>
       </div>
-
-      <!-- ALL VEHICLES -->
       <div class="admin-section" id="section-vehicles">
-        <div class="admin-section-header">
-          <div class="admin-section-title">TÜM <span>ARAÇLAR</span></div>
-          <button class="add-btn" onclick="openAddModal()">+ Yeni Araç Ekle</button>
-        </div>
+        <div class="admin-section-header"><div class="admin-section-title">TÜM <span>ARAÇLAR</span></div><button class="add-btn" onclick="openAddModal()">+ Yeni Araç Ekle</button></div>
         <div class="table-toolbar">
           <input class="table-search" id="adminSearch" placeholder="Araç ara..." oninput="renderAdminTable('all')"/>
-          <select class="filter-select" id="adminCatFilter" onchange="renderAdminTable('all')">
-            <option value="all">Tüm Kategoriler</option>
-            <option value="araba">🚗 Arabalar</option>
-            <option value="tir">🚛 Tırlar</option>
-            <option value="motor">🏍️ Motorlar</option>
-          </select>
+          <select class="filter-select" id="adminCatFilter" onchange="renderAdminTable('all')"><option value="all">Tüm Kategoriler</option><option value="araba">🚗 Arabalar</option><option value="tir">🚛 Tırlar</option><option value="motor">🏍️ Motorlar</option></select>
         </div>
-        <div class="vehicle-table-wrap">
-          <table class="vehicle-table">
-            <thead><tr><th>#</th><th>Görsel</th><th>Araç Adı</th><th>Kategori</th><th>Fiyat</th><th>Yıl</th><th>Km</th><th>İşlemler</th></tr></thead>
-            <tbody id="adminTableBody"></tbody>
-          </table>
-        </div>
+        <div class="vehicle-table-wrap"><table class="vehicle-table"><thead><tr><th>#</th><th>Görsel</th><th>Araç Adı</th><th>Kategori</th><th>Fiyat</th><th>Yıl</th><th>Km</th><th>İşlemler</th></tr></thead><tbody id="adminTableBody"></tbody></table></div>
       </div>
-
-      <!-- ARABALAR -->
       <div class="admin-section" id="section-arabalar">
-        <div class="admin-section-header">
-          <div class="admin-section-title">🚗 <span>ARABALAR</span></div>
-          <button class="add-btn" onclick="openAddModal('araba')">+ Araba Ekle</button>
-        </div>
-        <div class="table-toolbar">
-          <input class="table-search" id="adminSearchAraba" placeholder="Araba ara..." oninput="renderAdminTable('araba')"/>
-        </div>
-        <div class="vehicle-table-wrap">
-          <table class="vehicle-table">
-            <thead><tr><th>#</th><th>Görsel</th><th>Araç Adı</th><th>Fiyat</th><th>Yıl</th><th>Km</th><th>Motor</th><th>İşlemler</th></tr></thead>
-            <tbody id="adminTableAraba"></tbody>
-          </table>
-        </div>
+        <div class="admin-section-header"><div class="admin-section-title">🚗 <span>ARABALAR</span></div><button class="add-btn" onclick="openAddModal('araba')">+ Araba Ekle</button></div>
+        <div class="table-toolbar"><input class="table-search" id="adminSearchAraba" placeholder="Araba ara..." oninput="renderAdminTable('araba')"/></div>
+        <div class="vehicle-table-wrap"><table class="vehicle-table"><thead><tr><th>#</th><th>Görsel</th><th>Araç Adı</th><th>Fiyat</th><th>Yıl</th><th>Km</th><th>Motor</th><th>İşlemler</th></tr></thead><tbody id="adminTableAraba"></tbody></table></div>
       </div>
-
-      <!-- TIRLAR -->
       <div class="admin-section" id="section-tirlar">
-        <div class="admin-section-header">
-          <div class="admin-section-title">🚛 <span>TIRLAR</span></div>
-          <button class="add-btn" onclick="openAddModal('tir')">+ Tır Ekle</button>
-        </div>
-        <div class="table-toolbar">
-          <input class="table-search" id="adminSearchTir" placeholder="Tır ara..." oninput="renderAdminTable('tir')"/>
-        </div>
-        <div class="vehicle-table-wrap">
-          <table class="vehicle-table">
-            <thead><tr><th>#</th><th>Görsel</th><th>Araç Adı</th><th>Fiyat</th><th>Yıl</th><th>Km</th><th>Güç</th><th>İşlemler</th></tr></thead>
-            <tbody id="adminTableTir"></tbody>
-          </table>
-        </div>
+        <div class="admin-section-header"><div class="admin-section-title">🚛 <span>TIRLAR</span></div><button class="add-btn" onclick="openAddModal('tir')">+ Tır Ekle</button></div>
+        <div class="table-toolbar"><input class="table-search" id="adminSearchTir" placeholder="Tır ara..." oninput="renderAdminTable('tir')"/></div>
+        <div class="vehicle-table-wrap"><table class="vehicle-table"><thead><tr><th>#</th><th>Görsel</th><th>Araç Adı</th><th>Fiyat</th><th>Yıl</th><th>Km</th><th>Güç</th><th>İşlemler</th></tr></thead><tbody id="adminTableTir"></tbody></table></div>
       </div>
-
-      <!-- MOTORLAR -->
       <div class="admin-section" id="section-motorlar">
-        <div class="admin-section-header">
-          <div class="admin-section-title">🏍️ <span>MOTORLAR</span></div>
-          <button class="add-btn" onclick="openAddModal('motor')">+ Motor Ekle</button>
-        </div>
-        <div class="table-toolbar">
-          <input class="table-search" id="adminSearchMotor" placeholder="Motor ara..." oninput="renderAdminTable('motor')"/>
-        </div>
-        <div class="vehicle-table-wrap">
-          <table class="vehicle-table">
-            <thead><tr><th>#</th><th>Görsel</th><th>Araç Adı</th><th>Fiyat</th><th>Yıl</th><th>Km</th><th>Motor</th><th>İşlemler</th></tr></thead>
-            <tbody id="adminTableMotor"></tbody>
-          </table>
-        </div>
+        <div class="admin-section-header"><div class="admin-section-title">🏍️ <span>MOTORLAR</span></div><button class="add-btn" onclick="openAddModal('motor')">+ Motor Ekle</button></div>
+        <div class="table-toolbar"><input class="table-search" id="adminSearchMotor" placeholder="Motor ara..." oninput="renderAdminTable('motor')"/></div>
+        <div class="vehicle-table-wrap"><table class="vehicle-table"><thead><tr><th>#</th><th>Görsel</th><th>Araç Adı</th><th>Fiyat</th><th>Yıl</th><th>Km</th><th>Motor</th><th>İşlemler</th></tr></thead><tbody id="adminTableMotor"></tbody></table></div>
       </div>
+    </div>
+  </div>
+</div>
 
-    </div><!-- /admin-content -->
-  </div><!-- /admin-layout -->
-</div><!-- /adminPanel -->
-
-<!-- ADMIN ADD/EDIT MODAL -->
 <div class="admin-modal-overlay" id="vehicleFormModal">
   <div class="admin-modal">
     <button class="modal-close" onclick="closeAdminModal()">✕</button>
     <h2 id="formModalTitle">YENİ <span>ARAÇ</span></h2>
     <input type="hidden" id="formVehicleId" value=""/>
-
     <div class="form-row">
-      <div class="form-group">
-        <label>Araç Adı *</label>
-        <input type="text" id="fName" placeholder="BMW M3 Competition"/>
-      </div>
-      <div class="form-group">
-        <label>Kategori *</label>
-        <select id="fCat">
-          <option value="araba">🚗 Araba</option>
-          <option value="tir">🚛 Tır</option>
-          <option value="motor">🏍️ Motor</option>
-        </select>
-      </div>
+      <div class="form-group"><label>Araç Adı *</label><input type="text" id="fName" placeholder="BMW M3 Competition"/></div>
+      <div class="form-group"><label>Kategori *</label><select id="fCat"><option value="araba">🚗 Araba</option><option value="tir">🚛 Tır</option><option value="motor">🏍️ Motor</option></select></div>
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label>Fiyat *</label>
-        <input type="text" id="fPrice" placeholder="5.250.000 ₺"/>
-      </div>
-      <div class="form-group">
-        <label>Görsel URL *</label>
-        <input type="text" id="fImg" placeholder="https://..." oninput="previewImg()"/>
-      </div>
+      <div class="form-group"><label>Fiyat *</label><input type="text" id="fPrice" placeholder="5.250.000 ₺"/></div>
+      <div class="form-group"><label>Görsel URL *</label><input type="text" id="fImg" placeholder="https://..." oninput="previewImg()"/></div>
     </div>
     <img id="imgPreview" class="img-preview" src="" alt="Önizleme"/>
-
     <div class="form-group" style="margin-top:20px">
       <label>Teknik Özellikler</label>
       <div class="specs-editor" id="specsEditor"></div>
       <button class="add-spec-btn" onclick="addSpecRow()">+ Özellik Ekle</button>
     </div>
-
     <div class="admin-form-actions">
       <button class="btn-cancel-form" onclick="closeAdminModal()">İptal</button>
       <button class="btn-save" onclick="saveVehicle()">💾 Kaydet</button>
@@ -752,12 +376,11 @@ footer { text-align: center; padding: 24px; border-top: 1px solid var(--border);
   </div>
 </div>
 
-<!-- CONFIRM DELETE MODAL -->
 <div class="admin-modal-overlay" id="confirmDeleteModal">
   <div class="admin-modal confirm-modal">
     <div style="font-size:48px;margin-bottom:16px">🗑️</div>
     <h3>Aracı Sil</h3>
-    <p id="confirmDeleteMsg">Bu aracı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.</p>
+    <p id="confirmDeleteMsg"></p>
     <div class="confirm-actions">
       <button class="btn-confirm-cancel" onclick="closeAdminModal2()">İptal</button>
       <button class="btn-confirm-delete" onclick="confirmDelete()">Evet, Sil</button>
@@ -765,142 +388,147 @@ footer { text-align: center; padding: 24px; border-top: 1px solid var(--border);
   </div>
 </div>
 
-<!-- TOAST CONTAINER -->
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// ======================================================
-//  DATA
-// ======================================================
-let vehicles = [
-  { id:1,cat:"araba",name:"BMW M3 Competition",price:"5.250.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRakVd2uXS8kGi_OmMShtbgLDFbP6Jw7-whg&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"3.0L 6-Silindir Turbo","Güç":"510 HP","Vites":"8 İleri Otomatik","Yakıt":"Benzin","Renk":"Lüksenburg Mavisi","Garanti":"2 Yıl"}},
-  { id:2,cat:"araba",name:"Mercedes-Benz C200",price:"3.850.000 ₺",img:"https://jarviscdn-prod.azureedge.net/jarvis-files-container/Modified/vehicle/652898/06ard575-1_864_47_4_16_9_4_2026.JPEG",specs:{"Yıl":"2024","Km":"0 km","Motor":"1.5L 4-Silindir Turbo","Güç":"204 HP","Vites":"9G-Tronic","Yakıt":"Benzin","Renk":"Obsidyen Siyah","Garanti":"2 Yıl"}},
-  { id:3,cat:"araba",name:"Audi A4 2.0 TDI",price:"3.450.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQne3T-uxpKeobBwp5WuDxQtAVdxAWWaK5vpg&s",specs:{"Yıl":"2024","Km":"12.000 km","Motor":"2.0L Dizel Turbo","Güç":"163 HP","Vites":"7 İleri S-tronic","Yakıt":"Dizel","Renk":"Glacier Beyaz","Garanti":"1 Yıl"}},
-  { id:4,cat:"araba",name:"Volkswagen Golf GTI",price:"2.200.000 ₺",img:"https://cdn.motor1.com/images/mgl/N7Gw9/s1/vw-golf-gti-clubsport-45.webp",specs:{"Yıl":"2023","Km":"8.500 km","Motor":"2.0L TSI Turbo","Güç":"245 HP","Vites":"7 DSG","Yakıt":"Benzin","Renk":"Tornado Kırmızı","Garanti":"1 Yıl"}},
-  { id:5,cat:"araba",name:"Porsche 911 Carrera",price:"11.900.000 ₺",img:"https://arabam-blog.mncdn.com/wp-content/uploads/2022/10/2023-porsche-911-carrera-t-in-gulf-blue.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"3.0L Boxer-6 Turbo","Güç":"385 HP","Vites":"8 PDK","Yakıt":"Benzin","Renk":"GT Gümüşü","Garanti":"2 Yıl"}},
-  { id:6,cat:"araba",name:"Tesla Model 3",price:"3.100.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Tesla_Model_3_%282023%29_Autofr%C3%BChling_Ulm_IMG_9282.jpg/1280px-Tesla_Model_3_%282023%29_Autofr%C3%BChling_Ulm_IMG_9282.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"Çift Elektrik Motoru","Güç":"490 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Pearl Beyaz","Batarya":"82 kWh"}},
-  { id:7,cat:"araba",name:"Toyota GR86",price:"1.950.000 ₺",img:"https://cdn.motor1.com/images/mgl/x7GYG/s1/2022-toyota-gr-86.jpg",specs:{"Yıl":"2023","Km":"5.200 km","Motor":"2.4L 4-Silindir","Güç":"234 HP","Vites":"6 Manuel","Yakıt":"Benzin","Renk":"Kırmızı","Garanti":"1 Yıl"}},
-  { id:8,cat:"araba",name:"Hyundai Ioniq 5",price:"2.750.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcotUw7pJLX65LCCY6o3uCXOfeQ4lxvmvkgg&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"Tek Elektrik Motoru","Güç":"217 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Matte Yeşil","Batarya":"77.4 kWh"}},
-  { id:9,cat:"araba",name:"Ford Mustang GT",price:"4.200.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/2019_Ford_Mustang_GT_5.0_facelift.jpg/1280px-2019_Ford_Mustang_GT_5.0_facelift.jpg",specs:{"Yıl":"2024","Km":"2.100 km","Motor":"5.0L V8","Güç":"450 HP","Vites":"10 Otomatik","Yakıt":"Benzin","Renk":"Grabber Mavi","Garanti":"2 Yıl"}},
-  { id:10,cat:"araba",name:"Renault Megane E-Tech",price:"1.650.000 ₺",img:"https://cdn.group.renault.com/ren/master/renault-new-cars/product-plans/megane-e-tech-electrique/megane-bcb-my24/megane-bcb-my24-overview-002-desktop.jpg.ximg.xsmall.jpg/4208fc1548.jpg",specs:{"Yıl":"2023","Km":"15.000 km","Motor":"Elektrik","Güç":"220 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Scheelite Sarı","Batarya":"60 kWh"}},
-  { id:11,cat:"araba",name:"Alfa Romeo Giulia",price:"3.650.000 ₺",img:"https://cdn.otopark.com/wp-content/uploads/2020/03/1583567243_Alfa_Romeo_2-780x470.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"2.0L Turbo","Güç":"280 HP","Vites":"8 Otomatik","Yakıt":"Benzin","Renk":"Alfa Kırmızı","Garanti":"2 Yıl"}},
-  { id:12,cat:"araba",name:"Peugeot 308 GT",price:"1.480.000 ₺",img:"https://www.peugeot.com.tr/content/dam/peugeot/turkey/b2c/our-range/308/2025/desktop/4.png?imwidth=768",specs:{"Yıl":"2023","Km":"22.000 km","Motor":"1.6L Turbo","Güç":"225 HP","Vites":"8 EAT8","Yakıt":"Benzin","Renk":"Olivin Yeşili","Garanti":"6 Ay"}},
-  { id:13,cat:"araba",name:"Kia EV6 GT",price:"2.980.000 ₺",img:"https://thedriven.io/wp-content/uploads/2024/03/Kia-EV6-feature-image.jpg",specs:{"Yıl":"2024","Km":"1.500 km","Motor":"Çift Elektrik","Güç":"585 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Satin Gri","Batarya":"77.4 kWh"}},
-  { id:14,cat:"araba",name:"Mazda MX-5 Miata",price:"1.750.000 ₺",img:"https://hips.hearstapps.com/hmg-prod/images/2024-mazda-mx-5-miata-red-white-in-motion-65b3c9d045b5a.jpg",specs:{"Yıl":"2023","Km":"7.800 km","Motor":"2.0L 4-Silindir","Güç":"184 HP","Vites":"6 Manuel","Yakıt":"Benzin","Renk":"Kırmızı Soul","Garanti":"1 Yıl"}},
-  { id:15,cat:"araba",name:"BMW X5 xDrive40i",price:"7.800.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0jbvBJsFo7mMhVAdtd01ZMQAtTgw72BI95Q&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"3.0L 6-Silindir","Güç":"340 HP","Vites":"8 Steptronic","Yakıt":"Benzin","Renk":"Sophisto Gri","Garanti":"2 Yıl"}},
-  { id:16,cat:"araba",name:"Honda Civic Type R",price:"2.450.000 ₺",img:"https://www.automoli.com/common/vehicles/_assets/img/gallery/f68/honda-civic-type-r-fk8-facelift-2020.jpg",specs:{"Yıl":"2023","Km":"4.300 km","Motor":"2.0L VTEC Turbo","Güç":"330 HP","Vites":"6 Manuel","Yakıt":"Benzin","Renk":"Championship Beyaz","Garanti":"1 Yıl"}},
-  { id:17,cat:"araba",name:"Lamborghini Huracán",price:"45.000.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV_hUNJ5FuVoGDnRf2oMlWbv7exBlaysduTA&s",specs:{"Yıl":"2023","Km":"3.200 km","Motor":"5.2L V10","Güç":"610 HP","Vites":"7 PDK","Yakıt":"Benzin","Renk":"Arancio Borealis","Garanti":"1 Yıl"}},
-  { id:18,cat:"araba",name:"Volvo XC90 Recharge",price:"5.950.000 ₺",img:"https://wizz.volvocars.com/images/2027/256/exterior/location/threeQuartersFrontRight/exterior-location-threeQuartersFrontRight_CEA82143B27DCD189B0FE99E4D343644F2647A25.png",specs:{"Yıl":"2024","Km":"0 km","Motor":"2.0L + Elektrik (Plug-in)","Güç":"455 HP","Vites":"8 Otomatik","Yakıt":"Hibrit","Renk":"Crystal White","Garanti":"2 Yıl"}},
-  { id:19,cat:"araba",name:"Seat Leon FR",price:"1.320.000 ₺",img:"https://arbstorage.mncdn.com/ilanfotograflari/2026/03/30/39184016/9fe9d1b5-1705-4e3a-b8f7-b1a3ee114c75_image_for_silan_39184016_580x435.jpg",specs:{"Yıl":"2023","Km":"18.000 km","Motor":"2.0L TSI","Güç":"190 HP","Vites":"7 DSG","Yakıt":"Benzin","Renk":"Magnetic Tech","Garanti":"6 Ay"}},
-  { id:20,cat:"araba",name:"Subaru WRX STI",price:"2.850.000 ₺",img:"https://cdn.motor1.com/images/mgl/G3Al41/s1/subaru-wrx-sti-s210.webp",specs:{"Yıl":"2022","Km":"9.800 km","Motor":"2.5L Boxer Turbo","Güç":"310 HP","Vites":"6 Manuel","Yakıt":"Benzin","Renk":"WR Mavisi","Garanti":"1 Yıl"}},
-  { id:21,cat:"araba",name:"Ferrari Roma",price:"52.000.000 ₺",img:"https://hips.hearstapps.com/hmg-prod/images/ferrari-roma-spider-4-64137a8fda02d.jpg",specs:{"Yıl":"2024","Km":"500 km","Motor":"3.9L V8 Biturbo","Güç":"620 HP","Vites":"8 DCT","Yakıt":"Benzin","Renk":"Rosso Corsa","Garanti":"2 Yıl"}},
-  { id:22,cat:"araba",name:"Skoda Octavia RS",price:"1.180.000 ₺",img:"https://cdn.motor1.com/images/mgl/bXL9v/s1/skoda-octavia-rs-iv-2020.jpg",specs:{"Yıl":"2023","Km":"28.000 km","Motor":"2.0L TSI","Güç":"245 HP","Vites":"7 DSG","Yakıt":"Benzin","Renk":"Siyah","Garanti":"6 Ay"}},
-  { id:23,cat:"araba",name:"Land Rover Defender",price:"8.200.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkqR-EBcXtcwwjAT7-tUD0lBZQYC3r_dOHDw&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"3.0L 6 Silindir Mild Hybrid","Güç":"400 HP","Vites":"8 Otomatik","Yakıt":"Benzin/Hibrit","Renk":"Yunan Mavisi","Garanti":"2 Yıl"}},
-  { id:24,cat:"araba",name:"Nissan GT-R",price:"8.900.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Nissan_GT-R_01.JPG/1280px-Nissan_GT-R_01.JPG",specs:{"Yıl":"2023","Km":"6.100 km","Motor":"3.8L V6 Twin Turbo","Güç":"570 HP","Vites":"6 DCT","Yakıt":"Benzin","Renk":"Ultimate Metal Silver","Garanti":"1 Yıl"}},
-  { id:25,cat:"araba",name:"Jeep Wrangler Rubicon",price:"4.750.000 ₺",img:"https://cdn.motor1.com/images/mgl/JOBW24/s3/2025-jeep-wrangler-392-final-edition.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"2.0L Turbo","Güç":"272 HP","Vites":"8 Otomatik","Yakıt":"Benzin","Renk":"Bright White","Garanti":"2 Yıl"}},
-  { id:26,cat:"araba",name:"Mercedes AMG GT 63",price:"18.500.000 ₺",img:"https://cdn.motor1.com/images/mgl/3WE28p/s1/2027-mercedes-amg-gt-4-door.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"4.0L V8 Biturbo","Güç":"630 HP","Vites":"9G-Tronic","Yakıt":"Benzin","Renk":"Obsidyen Siyah","Garanti":"2 Yıl"}},
-  { id:27,cat:"araba",name:"Cupra Formentor",price:"1.780.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwb8lsTdt1iUJqJY2gbq9jbLdiX4z2CzrXmA&s",specs:{"Yıl":"2023","Km":"11.000 km","Motor":"2.0L TSI 4x4","Güç":"310 HP","Vites":"7 DSG","Yakıt":"Benzin","Renk":"Petrol Mavisi","Garanti":"1 Yıl"}},
-  { id:28,cat:"araba",name:"Fiat 500e",price:"1.050.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf9vAIdMwUn9G_uUfXKHtaVGgBxUrOO3_Gpw&s",specs:{"Yıl":"2023","Km":"9.500 km","Motor":"Elektrik","Güç":"118 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Gelato Beyaz","Batarya":"42 kWh"}},
-  { id:29,cat:"araba",name:"Chevrolet Corvette C8",price:"12.800.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Chevrolet_Corvette_C8_IAA_2021_1X7A0156.jpg/1280px-Chevrolet_Corvette_C8_IAA_2021_1X7A0156.jpg",specs:{"Yıl":"2024","Km":"2.400 km","Motor":"6.2L V8 Mid-Engine","Güç":"502 HP","Vites":"8 DCT","Yakıt":"Benzin","Renk":"Torch Red","Garanti":"2 Yıl"}},
-  { id:30,cat:"araba",name:"Toyota Supra GR",price:"3.200.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIeOv5vS0VPaFql58-i-asRVLw53RhE8oF2Q&s",specs:{"Yıl":"2023","Km":"6.700 km","Motor":"3.0L 6-Silindir BMW","Güç":"387 HP","Vites":"8 Otomatik","Yakıt":"Benzin","Renk":"Renaissance Red","Garanti":"1 Yıl"}},
-  { id:31,cat:"tir",name:"Volvo FH 500",price:"8.200.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSndCTrMs6B8zril-fR2g9RQU3t8LXRgDOfmg&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"13L D13 Dizel","Güç":"500 HP","Vites":"I-Shift 12","Dorse":"Frigorifik","Çekiş":"6x2","Yük":"25 Ton"}},
-  { id:32,cat:"tir",name:"Scania R 560",price:"9.100.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXerZaQzG1xMulCM6bF4UdTl2eNHrKTYDiTA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"16.4L V8 Dizel","Güç":"560 HP","Vites":"12 Otomatik","Dorse":"Platform","Çekiş":"4x2","Yük":"24 Ton"}},
-  { id:33,cat:"tir",name:"Mercedes-Benz Actros",price:"8.750.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/e/ee/Mercedes_Benz_Actros_MP_IV_%281%29.jpg",specs:{"Yıl":"2024","Km":"5.000 km","Motor":"12.8L Dizel","Güç":"510 HP","Vites":"PowerShift 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"25 Ton"}},
-  { id:34,cat:"tir",name:"MAN TGX 480",price:"7.850.000 ₺",img:"https://media.man.eu/is/image/MAN/man-spezifikation-tgx-stage-16-9?crop=0,428,8192,4608&wid=1600&hei=900&fit=stretch&fmt=webp-alpha",specs:{"Yıl":"2023","Km":"45.000 km","Motor":"12.4L Dizel","Güç":"480 HP","Vites":"ZF 12 AS","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"22 Ton"}},
-  { id:35,cat:"tir",name:"DAF XF 530",price:"8.400.000 ₺",img:"https://www.truck1.com.tr/img/xxl/16310/Cekici-DAF-XF530-Italya_16310_8367777812100.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"12.9L Dizel","Güç":"530 HP","Vites":"TraXon 12","Dorse":"Platform","Çekiş":"4x2","Yük":"24 Ton"}},
-  { id:36,cat:"tir",name:"Iveco S-Way 570",price:"7.600.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl-hUxxk2viyGECNqIDpObhT_D6GulRKQIig&s",specs:{"Yıl":"2023","Km":"18.000 km","Motor":"12.9L FPT Dizel","Güç":"570 HP","Vites":"HI-TRONIX 12","Dorse":"Frigorifik","Çekiş":"4x2","Yük":"23 Ton"}},
-  { id:37,cat:"tir",name:"Renault T 520",price:"7.200.000 ₺",img:"https://www.renault-trucks.com.tr/sites/default/files/2023-07/Landing_RT_T-High%20%281%29.jpeg",specs:{"Yıl":"2023","Km":"30.000 km","Motor":"11L Dizel","Güç":"520 HP","Vites":"Optidriver 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"22 Ton"}},
-  { id:38,cat:"tir",name:"Volvo FH 460 LNG",price:"10.500.000 ₺",img:"https://www.truck1.com.tr/img/xxl/570/Cekici-Volvo-FH-460-LNG-Finlandiya_570_2078953001919.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"13L LNG (Doğalgaz)","Güç":"460 HP","Vites":"I-Shift 12","Dorse":"Platform","Çekiş":"4x2","Yük":"20 Ton"}},
-  { id:39,cat:"tir",name:"Scania S 730",price:"12.800.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyvuWGd96Wmu4iWVpZ0apIOPrzxqVAI0XJGw&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"16.4L V8 Dizel","Güç":"730 HP","Vites":"Opticruise 12","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"24 Ton"}},
-  { id:40,cat:"tir",name:"Mercedes Actros 2663",price:"11.200.000 ₺",img:"https://img.linemedia.com/img/s/truck-tractor-Mercedes-Benz-Actros-2663-LS---1722327042032174513_big--24073011104173834500.jpg",specs:{"Yıl":"2024","Km":"2.000 km","Motor":"15.6L OM 473 V8","Güç":"630 HP","Vites":"PowerShift 3","Dorse":"Frigorifik","Çekiş":"6x2","Yük":"26 Ton"}},
-  { id:41,cat:"tir",name:"MAN TGS 8x4 Damper",price:"6.900.000 ₺",img:"https://img.linemedia.com/img/s/dump-truck-MAN-TGS-41-440---1768293768256505295_common--26011310374763417900.jpg",specs:{"Yıl":"2023","Km":"22.000 km","Motor":"12.4L Dizel","Güç":"400 HP","Vites":"ZF 8 AS","Dorse":"Damper Kasa","Çekiş":"8x4","Yük":"30 Ton"}},
-  { id:42,cat:"tir",name:"Ford F-MAX 500",price:"7.100.000 ₺",img:"https://img.linemedia.com/img/s/truck-tractor-Ford-F-MAX-500---1732692915902522863_big--24112709303120031300.jpg",specs:{"Yıl":"2023","Km":"38.000 km","Motor":"12.7L Ecotorq","Güç":"500 HP","Vites":"ZF 12 AS","Dorse":"Tenteli","Çekiş":"4x2","Yük":"23 Ton"}},
-  { id:43,cat:"tir",name:"Iveco Stralis NP (LNG)",price:"9.800.000 ₺",img:"https://d1grzqaobpv15j.cloudfront.net/pa/750-560/1850980/44130012/44130012_1709129250_631.jpg",specs:{"Yıl":"2023","Km":"12.000 km","Motor":"8.7L LNG","Güç":"460 HP","Vites":"Hi-Tronix 12","Dorse":"Platform","Çekiş":"4x2","Yük":"20 Ton"}},
-  { id:44,cat:"tir",name:"Volvo FH Aero",price:"9.500.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS26v-GOm7mWKVGWkax74VrPElwlHYX4H5g1w&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"13L D13 SCR","Güç":"540 HP","Vites":"I-Shift 12","Dorse":"Frigorifik","Çekiş":"4x2","Yük":"25 Ton"}},
-  { id:45,cat:"tir",name:"Scania R 450 Etanol",price:"8.900.000 ₺",img:"https://www.truck1.com.tr/img/xxl/46183/Cekici-Scania-R-450-STREAMLINE-Polonya_46183_5422218358880.jpg",specs:{"Yıl":"2024","Km":"5.500 km","Motor":"13L Etanol","Güç":"450 HP","Vites":"Opticruise 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"22 Ton"}},
-  { id:46,cat:"tir",name:"DAF CF 340",price:"5.600.000 ₺",img:"https://www.lectura-specs.com/models/renamed/orig/tarktor-parcalari-cf-340-ft-daf.jpg",specs:{"Yıl":"2022","Km":"85.000 km","Motor":"10.8L Dizel","Güç":"340 HP","Vites":"TraXon 12","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"20 Ton"}},
-  { id:47,cat:"tir",name:"Mercedes Arocs 4145",price:"8.100.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3YMSvdhyhgrPUjIY8qbmnbbVQT8O36p78xQ&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"10.7L Dizel","Güç":"450 HP","Vites":"PowerShift 3","Dorse":"Beton Mikseri","Çekiş":"8x4","Yük":"28 Ton"}},
-  { id:48,cat:"tir",name:"Renault Premium 460",price:"4.800.000 ₺",img:"https://arbstorage.mncdn.com/ilanfotograflari/2025/06/21/30385401/b070121e-15a1-4bd8-a60d-7cee24850bd9_image_for_silan_30385401_1920x1080.jpg",specs:{"Yıl":"2021","Km":"120.000 km","Motor":"11L DXi Dizel","Güç":"460 HP","Vites":"Optidriver 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"22 Ton"}},
-  { id:49,cat:"tir",name:"Scania P 280 Tıbbi",price:"6.400.000 ₺",img:"https://www.lectura-specs.com/models/renamed/orig/kati-sasiler-p-280-b4x2na-scania(1).jpg",specs:{"Yıl":"2022","Km":"62.000 km","Motor":"9.3L Dizel","Güç":"280 HP","Vites":"Opticruise 12","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"12 Ton"}},
-  { id:50,cat:"tir",name:"MAN TGX 680 V8",price:"14.500.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq7k7ssSE5Ct0ZybLAzOFIZXkCBhLM5OgcrA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"16.2L V8 Dizel","Güç":"680 HP","Vites":"ZF 12 AS","Dorse":"Özel Kasa","Çekiş":"4x2","Yük":"24 Ton"}},
-  { id:51,cat:"tir",name:"Volvo FMX 460 6x6",price:"11.800.000 ₺",img:"https://cdn.truckscout24.com/data/listing/img/vga/ts/14/26/21913763-02.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"13L D13 Dizel","Güç":"460 HP","Vites":"I-Shift 12","Dorse":"Damper","Çekiş":"6x6","Yük":"32 Ton"}},
-  { id:52,cat:"tir",name:"Scania G 410 XT",price:"8.600.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqqR-0G7ikBQX-BpJEA8pKcFZT3IEwkycS9g&s",specs:{"Yıl":"2023","Km":"14.000 km","Motor":"13L Dizel","Güç":"410 HP","Vites":"Opticruise 12","Dorse":"Platform","Çekiş":"4x2","Yük":"22 Ton"}},
-  { id:53,cat:"tir",name:"Iveco T-Way 570",price:"9.200.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsint9B030Fk4AO63JMLcVV-1KARErHVcqSQ&s",specs:{"Yıl":"2024","Km":"3.000 km","Motor":"12.9L Dizel","Güç":"570 HP","Vites":"Hi-Tronix 12","Dorse":"Damper","Çekiş":"6x4","Yük":"30 Ton"}},
-  { id:54,cat:"tir",name:"Ford Trucks 3542 S",price:"6.100.000 ₺",img:"https://img.linemedia.com/img/s/chassis-truck-Ford-Trucks-3542---1541622048709350461_big--18110722195795062200.jpg",specs:{"Yıl":"2022","Km":"55.000 km","Motor":"12.7L Ecotorq","Güç":"420 HP","Vites":"ZF 12","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"22 Ton"}},
-  { id:55,cat:"tir",name:"MAN TGS 6x4 Vinçli",price:"9.900.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaggk4YiEAWZ3BMXDWUsc88w9Te0vjtyyuLQ&s",specs:{"Yıl":"2023","Km":"10.000 km","Motor":"12.4L Dizel","Güç":"440 HP","Vites":"ZF 12 AS","Dorse":"Vinçli Platform","Çekiş":"6x4","Yük":"28 Ton"}},
-  { id:56,cat:"tir",name:"DAF XG+ 530",price:"10.100.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-c5VhVDsYhE2J3_idRVvLHfaldnFi5bbrwA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"12.9L PACCAR MX-13","Güç":"530 HP","Vites":"TraXon 12","Dorse":"Frigorifik","Çekiş":"4x2","Yük":"25 Ton"}},
-  { id:57,cat:"tir",name:"Mercedes Actros eActros",price:"18.000.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4X2wto9l1O054PVOv9pJBcKJb9uEyrOp0RQ&s",specs:{"Yıl":"2024","Km":"500 km","Motor":"Elektrik (3 Motor)","Güç":"536 HP","Vites":"Tek Kademe","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"18 Ton"}},
-  { id:58,cat:"tir",name:"Scania P 360 8x4",price:"8.300.000 ₺",img:"https://img.linemedia.com/img/s/dump-truck-Scania-P360-Kipper-8x4-TOPZUSTAND---1776772806395741706_big--23092210183783122700.jpg",specs:{"Yıl":"2023","Km":"20.000 km","Motor":"9.3L Dizel","Güç":"360 HP","Vites":"Opticruise 12","Dorse":"Beton","Çekiş":"8x4","Yük":"30 Ton"}},
-  { id:59,cat:"tir",name:"Volvo FH 4x2 Euro 6",price:"7.700.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgfdeJ9NWYyjTCte8BYpDFl9OaFiWW3Mh9Aw&s",specs:{"Yıl":"2022","Km":"78.000 km","Motor":"13L D13 Dizel Euro6","Güç":"500 HP","Vites":"I-Shift 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"24 Ton"}},
-  { id:60,cat:"tir",name:"Renault T High 520",price:"8.050.000 ₺",img:"https://cdn.truckscout24.com/data/listing/img/vga/ts/00/81/20172055-01.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"11L DT13 Dizel","Güç":"520 HP","Vites":"Optidriver 12","Dorse":"Frigorifik","Çekiş":"4x2","Yük":"23 Ton"}},
-  { id:61,cat:"motor",name:"Honda CBR1000RR Fireblade",price:"1.250.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPYWehK_G6uXnR2wnf8ka0XrpUcbm9rOc5Ng&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"999cc 4-Silindir","Güç":"214 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Repsol","Garanti":"2 Yıl"}},
-  { id:62,cat:"motor",name:"Yamaha YZF-R1M",price:"1.450.000 ₺",img:"https://platincdn.com/1209/dosyalar/images/motosikletler/Yamaha/Yamaha%20YZF-R1M.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"998cc Crossplane 4-Silindir","Güç":"200 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"MotoGP Mavi","Garanti":"2 Yıl"}},
-  { id:63,cat:"motor",name:"Ducati Panigale V4",price:"2.100.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROGdH74B5M3oPn7sVaAHSZMOYycNBW6oVxXA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1103cc Desmosedici V4","Güç":"215 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Ducati Kırmızı","Garanti":"2 Yıl"}},
-  { id:64,cat:"motor",name:"Kawasaki Ninja ZX-10R",price:"1.180.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Kwasaki_ZX-10R_tokyo.JPG/1280px-Kwasaki_ZX-10R_tokyo.JPG",specs:{"Yıl":"2024","Km":"0 km","Motor":"998cc 4-Silindir","Güç":"203 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Lime Green","Garanti":"2 Yıl"}},
-  { id:65,cat:"motor",name:"BMW S1000RR",price:"1.750.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd_jGXR3DPgofc1dyoMfiw-ICL6WvG7RLjPg&s",specs:{"Yıl":"2024","Km":"1.500 km","Motor":"999cc ShiftCam 4-Silindir","Güç":"210 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"M Motorsport","Garanti":"1 Yıl"}},
-  { id:66,cat:"motor",name:"Suzuki GSX-R1000R",price:"980.000 ₺",img:"https://www.globalsuzuki.com/globalnews/2025/img/0731b.jpg",specs:{"Yıl":"2023","Km":"4.200 km","Motor":"999cc 4-Silindir","Güç":"202 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Metallic Triton Mavi","Garanti":"1 Yıl"}},
-  { id:67,cat:"motor",name:"Aprilia RSV4 Factory",price:"1.980.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWz_FdGnro3usBWTCZcuQBkYOib9PGX33JXQ&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1077cc V4","Güç":"217 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Lava Kırmızı","Garanti":"2 Yıl"}},
-  { id:68,cat:"motor",name:"Triumph Speed Triple RS",price:"1.150.000 ₺",img:"https://media.triumphmotorcycles.co.uk/image/upload/t_triumph_square/c_limit,w_3840/f_auto/q_auto:eco/v1736762051/OE_SpeedTriple1200RS_MY25_19101_JP_f8czoo",specs:{"Yıl":"2024","Km":"0 km","Motor":"1160cc 3-Silindir","Güç":"180 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Crystal White","Garanti":"2 Yıl"}},
-  { id:69,cat:"motor",name:"Harley-Davidson Fat Boy",price:"1.680.000 ₺",img:"https://www.harley-davidson.com/ctfasset/5vy1mse9fkav/2lB59WYe0DLIWpzGy5hIOR/c1eb29c439e4862178429596071347fe/2026-fat-boy-beauty-ls-1.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"1868cc Milwaukee-Eight 114","Güç":"95 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Vivid Black","Garanti":"2 Yıl"}},
-  { id:70,cat:"motor",name:"KTM 1290 Super Duke R",price:"1.350.000 ₺",img:"https://www.motosikletonline.com/shop/do/14/myassets/blogs/blog-56.jpg",specs:{"Yıl":"2024","Km":"800 km","Motor":"1301cc V-Twin","Güç":"180 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Turuncu","Garanti":"2 Yıl"}},
-  { id:71,cat:"motor",name:"MV Agusta F4 Claudio",price:"8.500.000 ₺",img:"https://www.motoplanete.com/mv-agusta/zoom-700px/MV-Agusta-1000-F4-Caudio-2019-700px.webp",specs:{"Yıl":"2019","Km":"500 km","Motor":"998cc Radyal 4-Silindir","Güç":"212 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Yarış Gümüşü","Garanti":"1 Yıl"}},
-  { id:72,cat:"motor",name:"Yamaha MT-09 SP",price:"620.000 ₺",img:"https://ridermagazine.com/wp-content/uploads/2024/10/2024-Yamaha-MT-09-SP-review-5.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"890cc Crossplane 3-Silindir","Güç":"119 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Power Black","Garanti":"2 Yıl"}},
-  { id:73,cat:"motor",name:"Honda Africa Twin",price:"780.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrAhesdvW5M3wpEe35sSXItPBrzW4PcQqLww&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1084cc 2-Silindir","Güç":"102 HP","Vites":"6 Manuel / DCT","Yakıt":"Benzin","Renk":"Grand Prix Red","Garanti":"2 Yıl"}},
-  { id:74,cat:"motor",name:"BMW R 1250 GS Adventure",price:"1.100.000 ₺",img:"https://makinavadi.com//img/araclar/27397/4.jpg",specs:{"Yıl":"2024","Km":"2.800 km","Motor":"1254cc Boxer 2-Silindir","Güç":"136 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Kaolin Grey","Garanti":"1 Yıl"}},
-  { id:75,cat:"motor",name:"Ducati Monster SP",price:"890.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlJJ2q_zFUrqyMMWEnYRMzXCPBMUcFj8To8Q&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"937cc Testastretta V2","Güç":"111 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Arctic White","Garanti":"2 Yıl"}},
-  { id:76,cat:"motor",name:"Kawasaki Z H2",price:"1.050.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSKrwfms7jn6RiyUMAcS0eS9mNMQG5pQSQSw&s",specs:{"Yıl":"2024","Km":"1.200 km","Motor":"998cc Süperşarjlı 4-Silindir","Güç":"200 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Metallic Spark Black","Garanti":"2 Yıl"}},
-  { id:77,cat:"motor",name:"Suzuki V-Strom 1050 XT",price:"720.000 ₺",img:"https://www.motoron.com.tr/wp-content/uploads/2020/05/V-Strom-1050-XT-1024x683.jpg",specs:{"Yıl":"2023","Km":"6.300 km","Motor":"1037cc V-Twin","Güç":"107 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Pearl Brilliant White","Garanti":"1 Yıl"}},
-  { id:78,cat:"motor",name:"Indian Scout Bobber",price:"950.000 ₺",img:"https://www.indianmotorcycle.com.tr/fileadmin/templates/model_26/features26/scout-1250/scout-bobber/f2-1.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"1133cc Thunder Stroke V-Twin","Güç":"100 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Black Metallic","Garanti":"2 Yıl"}},
-  { id:79,cat:"motor",name:"Yamaha TMAX 560",price:"520.000 ₺",img:"https://cdn2.yamaha-motor.eu/prod/product-assets/2026/XP500ADX/2026-Yamaha-XP500ADX-EU-Ceramic_Grey-360-Degrees-001-03_Mobile.jpg",specs:{"Yıl":"2024","Km":"3.400 km","Motor":"562cc 2-Silindir","Güç":"47 HP","Vites":"CVT Otomatik","Yakıt":"Benzin","Renk":"Graphite Grey","Garanti":"1 Yıl"}},
-  { id:80,cat:"motor",name:"Honda CB650R",price:"480.000 ₺",img:"https://www.motorcyclistonline.com/resizer/sVnn49EyzoNejDiIKLr0BpEyEFA=/arc-photo-octane/arc3-prod/public/U5XLPUHU2JCVFFGJA5UH5KPVCA.jpg",specs:{"Yıl":"2023","Km":"8.100 km","Motor":"649cc 4-Silindir","Güç":"95 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Mat Gunpowder Black","Garanti":"1 Yıl"}},
-  { id:81,cat:"motor",name:"Ducati Streetfighter V4",price:"1.850.000 ₺",img:"https://images5.1000ps.net/images_bikekat/2025/5-Ducati/9920-Streetfighter_V4_S/001-638684613228458257-ducati-streetfighter-v4-s.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"1103cc Desmosedici V4","Güç":"208 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Dark Stealth","Garanti":"2 Yıl"}},
-  { id:82,cat:"motor",name:"KTM 890 Duke R",price:"580.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyRFrntfG2ciCE1QuPSQjiqOS6DaLhM4Rw7g&s",specs:{"Yıl":"2023","Km":"5.600 km","Motor":"889cc 2-Silindir","Güç":"121 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Turuncu","Garanti":"1 Yıl"}},
-  { id:83,cat:"motor",name:"BMW M1000RR",price:"2.900.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVALgveAXMipCa8HnGPhmJgcP_-YSoWCR6Nw&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"999cc ShiftCam 4-Silindir","Güç":"212 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"M Motorsport","Garanti":"2 Yıl"}},
-  { id:84,cat:"motor",name:"Triumph Bonneville T120",price:"680.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaf4YIiqIX3bHNzW_vfI6H1IkAhSdJHO8VaA&s",specs:{"Yıl":"2023","Km":"3.200 km","Motor":"1200cc Parallel Twin","Güç":"80 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Jet Black","Garanti":"1 Yıl"}},
-  { id:85,cat:"motor",name:"Harley-Davidson Street Glide",price:"2.200.000 ₺",img:"https://cdn.room58.com/2022/08/05/ce6fa49d9e39e88db6423fe415790e1f_85eba918f03cd510.png",specs:{"Yıl":"2024","Km":"0 km","Motor":"1923cc Milwaukee-Eight 117","Güç":"105 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Vivid Black","Garanti":"2 Yıl"}},
-  { id:86,cat:"motor",name:"Aprilia Tuono V4 Factory",price:"1.650.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTrUyV_pj5XRvkreunp6vgjLyuyW6rZizRWg&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1077cc V4","Güç":"175 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Gris","Garanti":"2 Yıl"}},
-  { id:87,cat:"motor",name:"Yamaha XSR900",price:"450.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgQBkl7YKdGPAk022WxUT85G2tGmxfjJlaWw&s",specs:{"Yıl":"2023","Km":"7.700 km","Motor":"890cc Crossplane 3-Silindir","Güç":"119 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Tech Black","Garanti":"1 Yıl"}},
-  { id:88,cat:"motor",name:"Kawasaki Versys 1000 SE",price:"820.000 ₺",img:"https://www.kawasaki.com.tr/Photos/Motosiklet/versys1000se/kcmf.png",specs:{"Yıl":"2024","Km":"2.100 km","Motor":"1043cc 4-Silindir","Güç":"120 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Metallic Flat Raw","Garanti":"2 Yıl"}},
-  { id:89,cat:"motor",name:"Ducati Multistrada V4 S",price:"1.750.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDzfkxVWe9tyl8MemIizRHEaHTkojHf_Bh5Q&s",specs:{"Yıl":"2024","Km":"1.900 km","Motor":"1158cc V4","Güç":"170 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Aviator Grey","Garanti":"2 Yıl"}},
-  { id:90,cat:"motor",name:"Honda Gold Wing Tour",price:"1.900.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRxXdapw5MqF0FKDHJ_c7uwUnEjQg_VePykA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1833cc Flat-6","Güç":"126 HP","Vites":"7 DCT","Yakıt":"Benzin","Renk":"Pearl Glare White","Garanti":"2 Yıl"}}
+// ── DEFAULT DATA ──────────────────────────────────────────────────────────────
+const DEFAULT_VEHICLES = [
+  {id:1,cat:"araba",name:"BMW M3 Competition",price:"5.250.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRakVd2uXS8kGi_OmMShtbgLDFbP6Jw7-whg&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"3.0L 6-Silindir Turbo","Güç":"510 HP","Vites":"8 İleri Otomatik","Yakıt":"Benzin","Renk":"Lüksenburg Mavisi","Garanti":"2 Yıl"}},
+  {id:2,cat:"araba",name:"Mercedes-Benz C200",price:"3.850.000 ₺",img:"https://jarviscdn-prod.azureedge.net/jarvis-files-container/Modified/vehicle/652898/06ard575-1_864_47_4_16_9_4_2026.JPEG",specs:{"Yıl":"2024","Km":"0 km","Motor":"1.5L 4-Silindir Turbo","Güç":"204 HP","Vites":"9G-Tronic","Yakıt":"Benzin","Renk":"Obsidyen Siyah","Garanti":"2 Yıl"}},
+  {id:3,cat:"araba",name:"Audi A4 2.0 TDI",price:"3.450.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQne3T-uxpKeobBwp5WuDxQtAVdxAWWaK5vpg&s",specs:{"Yıl":"2024","Km":"12.000 km","Motor":"2.0L Dizel Turbo","Güç":"163 HP","Vites":"7 İleri S-tronic","Yakıt":"Dizel","Renk":"Glacier Beyaz","Garanti":"1 Yıl"}},
+  {id:4,cat:"araba",name:"Volkswagen Golf GTI",price:"2.200.000 ₺",img:"https://cdn.motor1.com/images/mgl/N7Gw9/s1/vw-golf-gti-clubsport-45.webp",specs:{"Yıl":"2023","Km":"8.500 km","Motor":"2.0L TSI Turbo","Güç":"245 HP","Vites":"7 DSG","Yakıt":"Benzin","Renk":"Tornado Kırmızı","Garanti":"1 Yıl"}},
+  {id:5,cat:"araba",name:"Porsche 911 Carrera",price:"11.900.000 ₺",img:"https://arabam-blog.mncdn.com/wp-content/uploads/2022/10/2023-porsche-911-carrera-t-in-gulf-blue.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"3.0L Boxer-6 Turbo","Güç":"385 HP","Vites":"8 PDK","Yakıt":"Benzin","Renk":"GT Gümüşü","Garanti":"2 Yıl"}},
+  {id:6,cat:"araba",name:"Tesla Model 3",price:"3.100.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Tesla_Model_3_%282023%29_Autofr%C3%BChling_Ulm_IMG_9282.jpg/1280px-Tesla_Model_3_%282023%29_Autofr%C3%BChling_Ulm_IMG_9282.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"Çift Elektrik Motoru","Güç":"490 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Pearl Beyaz","Batarya":"82 kWh"}},
+  {id:7,cat:"araba",name:"Toyota GR86",price:"1.950.000 ₺",img:"https://cdn.motor1.com/images/mgl/x7GYG/s1/2022-toyota-gr-86.jpg",specs:{"Yıl":"2023","Km":"5.200 km","Motor":"2.4L 4-Silindir","Güç":"234 HP","Vites":"6 Manuel","Yakıt":"Benzin","Renk":"Kırmızı","Garanti":"1 Yıl"}},
+  {id:8,cat:"araba",name:"Hyundai Ioniq 5",price:"2.750.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcotUw7pJLX65LCCY6o3uCXOfeQ4lxvmvkgg&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"Tek Elektrik Motoru","Güç":"217 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Matte Yeşil","Batarya":"77.4 kWh"}},
+  {id:9,cat:"araba",name:"Ford Mustang GT",price:"4.200.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/2019_Ford_Mustang_GT_5.0_facelift.jpg/1280px-2019_Ford_Mustang_GT_5.0_facelift.jpg",specs:{"Yıl":"2024","Km":"2.100 km","Motor":"5.0L V8","Güç":"450 HP","Vites":"10 Otomatik","Yakıt":"Benzin","Renk":"Grabber Mavi","Garanti":"2 Yıl"}},
+  {id:10,cat:"araba",name:"Renault Megane E-Tech",price:"1.650.000 ₺",img:"https://cdn.group.renault.com/ren/master/renault-new-cars/product-plans/megane-e-tech-electrique/megane-bcb-my24/megane-bcb-my24-overview-002-desktop.jpg.ximg.xsmall.jpg/4208fc1548.jpg",specs:{"Yıl":"2023","Km":"15.000 km","Motor":"Elektrik","Güç":"220 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Scheelite Sarı","Batarya":"60 kWh"}},
+  {id:11,cat:"araba",name:"Alfa Romeo Giulia",price:"3.650.000 ₺",img:"https://cdn.otopark.com/wp-content/uploads/2020/03/1583567243_Alfa_Romeo_2-780x470.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"2.0L Turbo","Güç":"280 HP","Vites":"8 Otomatik","Yakıt":"Benzin","Renk":"Alfa Kırmızı","Garanti":"2 Yıl"}},
+  {id:12,cat:"araba",name:"Peugeot 308 GT",price:"1.480.000 ₺",img:"https://www.peugeot.com.tr/content/dam/peugeot/turkey/b2c/our-range/308/2025/desktop/4.png?imwidth=768",specs:{"Yıl":"2023","Km":"22.000 km","Motor":"1.6L Turbo","Güç":"225 HP","Vites":"8 EAT8","Yakıt":"Benzin","Renk":"Olivin Yeşili","Garanti":"6 Ay"}},
+  {id:13,cat:"araba",name:"Kia EV6 GT",price:"2.980.000 ₺",img:"https://thedriven.io/wp-content/uploads/2024/03/Kia-EV6-feature-image.jpg",specs:{"Yıl":"2024","Km":"1.500 km","Motor":"Çift Elektrik","Güç":"585 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Satin Gri","Batarya":"77.4 kWh"}},
+  {id:14,cat:"araba",name:"Mazda MX-5 Miata",price:"1.750.000 ₺",img:"https://hips.hearstapps.com/hmg-prod/images/2024-mazda-mx-5-miata-red-white-in-motion-65b3c9d045b5a.jpg",specs:{"Yıl":"2023","Km":"7.800 km","Motor":"2.0L 4-Silindir","Güç":"184 HP","Vites":"6 Manuel","Yakıt":"Benzin","Renk":"Kırmızı Soul","Garanti":"1 Yıl"}},
+  {id:15,cat:"araba",name:"BMW X5 xDrive40i",price:"7.800.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0jbvBJsFo7mMhVAdtd01ZMQAtTgw72BI95Q&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"3.0L 6-Silindir","Güç":"340 HP","Vites":"8 Steptronic","Yakıt":"Benzin","Renk":"Sophisto Gri","Garanti":"2 Yıl"}},
+  {id:16,cat:"araba",name:"Honda Civic Type R",price:"2.450.000 ₺",img:"https://www.automoli.com/common/vehicles/_assets/img/gallery/f68/honda-civic-type-r-fk8-facelift-2020.jpg",specs:{"Yıl":"2023","Km":"4.300 km","Motor":"2.0L VTEC Turbo","Güç":"330 HP","Vites":"6 Manuel","Yakıt":"Benzin","Renk":"Championship Beyaz","Garanti":"1 Yıl"}},
+  {id:17,cat:"araba",name:"Lamborghini Huracán",price:"45.000.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV_hUNJ5FuVoGDnRf2oMlWbv7exBlaysduTA&s",specs:{"Yıl":"2023","Km":"3.200 km","Motor":"5.2L V10","Güç":"610 HP","Vites":"7 PDK","Yakıt":"Benzin","Renk":"Arancio Borealis","Garanti":"1 Yıl"}},
+  {id:18,cat:"araba",name:"Volvo XC90 Recharge",price:"5.950.000 ₺",img:"https://wizz.volvocars.com/images/2027/256/exterior/location/threeQuartersFrontRight/exterior-location-threeQuartersFrontRight_CEA82143B27DCD189B0FE99E4D343644F2647A25.png",specs:{"Yıl":"2024","Km":"0 km","Motor":"2.0L + Elektrik (Plug-in)","Güç":"455 HP","Vites":"8 Otomatik","Yakıt":"Hibrit","Renk":"Crystal White","Garanti":"2 Yıl"}},
+  {id:19,cat:"araba",name:"Seat Leon FR",price:"1.320.000 ₺",img:"https://arbstorage.mncdn.com/ilanfotograflari/2026/03/30/39184016/9fe9d1b5-1705-4e3a-b8f7-b1a3ee114c75_image_for_silan_39184016_580x435.jpg",specs:{"Yıl":"2023","Km":"18.000 km","Motor":"2.0L TSI","Güç":"190 HP","Vites":"7 DSG","Yakıt":"Benzin","Renk":"Magnetic Tech","Garanti":"6 Ay"}},
+  {id:20,cat:"araba",name:"Subaru WRX STI",price:"2.850.000 ₺",img:"https://cdn.motor1.com/images/mgl/G3Al41/s1/subaru-wrx-sti-s210.webp",specs:{"Yıl":"2022","Km":"9.800 km","Motor":"2.5L Boxer Turbo","Güç":"310 HP","Vites":"6 Manuel","Yakıt":"Benzin","Renk":"WR Mavisi","Garanti":"1 Yıl"}},
+  {id:21,cat:"araba",name:"Ferrari Roma",price:"52.000.000 ₺",img:"https://hips.hearstapps.com/hmg-prod/images/ferrari-roma-spider-4-64137a8fda02d.jpg",specs:{"Yıl":"2024","Km":"500 km","Motor":"3.9L V8 Biturbo","Güç":"620 HP","Vites":"8 DCT","Yakıt":"Benzin","Renk":"Rosso Corsa","Garanti":"2 Yıl"}},
+  {id:22,cat:"araba",name:"Skoda Octavia RS",price:"1.180.000 ₺",img:"https://cdn.motor1.com/images/mgl/bXL9v/s1/skoda-octavia-rs-iv-2020.jpg",specs:{"Yıl":"2023","Km":"28.000 km","Motor":"2.0L TSI","Güç":"245 HP","Vites":"7 DSG","Yakıt":"Benzin","Renk":"Siyah","Garanti":"6 Ay"}},
+  {id:23,cat:"araba",name:"Land Rover Defender",price:"8.200.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkqR-EBcXtcwwjAT7-tUD0lBZQYC3r_dOHDw&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"3.0L 6 Silindir Mild Hybrid","Güç":"400 HP","Vites":"8 Otomatik","Yakıt":"Benzin/Hibrit","Renk":"Yunan Mavisi","Garanti":"2 Yıl"}},
+  {id:24,cat:"araba",name:"Nissan GT-R",price:"8.900.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Nissan_GT-R_01.JPG/1280px-Nissan_GT-R_01.JPG",specs:{"Yıl":"2023","Km":"6.100 km","Motor":"3.8L V6 Twin Turbo","Güç":"570 HP","Vites":"6 DCT","Yakıt":"Benzin","Renk":"Ultimate Metal Silver","Garanti":"1 Yıl"}},
+  {id:25,cat:"araba",name:"Jeep Wrangler Rubicon",price:"4.750.000 ₺",img:"https://cdn.motor1.com/images/mgl/JOBW24/s3/2025-jeep-wrangler-392-final-edition.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"2.0L Turbo","Güç":"272 HP","Vites":"8 Otomatik","Yakıt":"Benzin","Renk":"Bright White","Garanti":"2 Yıl"}},
+  {id:26,cat:"araba",name:"Mercedes AMG GT 63",price:"18.500.000 ₺",img:"https://cdn.motor1.com/images/mgl/3WE28p/s1/2027-mercedes-amg-gt-4-door.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"4.0L V8 Biturbo","Güç":"630 HP","Vites":"9G-Tronic","Yakıt":"Benzin","Renk":"Obsidyen Siyah","Garanti":"2 Yıl"}},
+  {id:27,cat:"araba",name:"Cupra Formentor",price:"1.780.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwb8lsTdt1iUJqJY2gbq9jbLdiX4z2CzrXmA&s",specs:{"Yıl":"2023","Km":"11.000 km","Motor":"2.0L TSI 4x4","Güç":"310 HP","Vites":"7 DSG","Yakıt":"Benzin","Renk":"Petrol Mavisi","Garanti":"1 Yıl"}},
+  {id:28,cat:"araba",name:"Fiat 500e",price:"1.050.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRf9vAIdMwUn9G_uUfXKHtaVGgBxUrOO3_Gpw&s",specs:{"Yıl":"2023","Km":"9.500 km","Motor":"Elektrik","Güç":"118 HP","Vites":"Tek Kademe","Yakıt":"Elektrik","Renk":"Gelato Beyaz","Batarya":"42 kWh"}},
+  {id:29,cat:"araba",name:"Chevrolet Corvette C8",price:"12.800.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Chevrolet_Corvette_C8_IAA_2021_1X7A0156.jpg/1280px-Chevrolet_Corvette_C8_IAA_2021_1X7A0156.jpg",specs:{"Yıl":"2024","Km":"2.400 km","Motor":"6.2L V8 Mid-Engine","Güç":"502 HP","Vites":"8 DCT","Yakıt":"Benzin","Renk":"Torch Red","Garanti":"2 Yıl"}},
+  {id:30,cat:"araba",name:"Toyota Supra GR",price:"3.200.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIeOv5vS0VPaFql58-i-asRVLw53RhE8oF2Q&s",specs:{"Yıl":"2023","Km":"6.700 km","Motor":"3.0L 6-Silindir BMW","Güç":"387 HP","Vites":"8 Otomatik","Yakıt":"Benzin","Renk":"Renaissance Red","Garanti":"1 Yıl"}},
+  {id:31,cat:"tir",name:"Volvo FH 500",price:"8.200.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSndCTrMs6B8zril-fR2g9RQU3t8LXRgDOfmg&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"13L D13 Dizel","Güç":"500 HP","Vites":"I-Shift 12","Dorse":"Frigorifik","Çekiş":"6x2","Yük":"25 Ton"}},
+  {id:32,cat:"tir",name:"Scania R 560",price:"9.100.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXerZaQzG1xMulCM6bF4UdTl2eNHrKTYDiTA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"16.4L V8 Dizel","Güç":"560 HP","Vites":"12 Otomatik","Dorse":"Platform","Çekiş":"4x2","Yük":"24 Ton"}},
+  {id:33,cat:"tir",name:"Mercedes-Benz Actros",price:"8.750.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/e/ee/Mercedes_Benz_Actros_MP_IV_%281%29.jpg",specs:{"Yıl":"2024","Km":"5.000 km","Motor":"12.8L Dizel","Güç":"510 HP","Vites":"PowerShift 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"25 Ton"}},
+  {id:34,cat:"tir",name:"MAN TGX 480",price:"7.850.000 ₺",img:"https://media.man.eu/is/image/MAN/man-spezifikation-tgx-stage-16-9?crop=0,428,8192,4608&wid=1600&hei=900&fit=stretch&fmt=webp-alpha",specs:{"Yıl":"2023","Km":"45.000 km","Motor":"12.4L Dizel","Güç":"480 HP","Vites":"ZF 12 AS","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"22 Ton"}},
+  {id:35,cat:"tir",name:"DAF XF 530",price:"8.400.000 ₺",img:"https://www.truck1.com.tr/img/xxl/16310/Cekici-DAF-XF530-Italya_16310_8367777812100.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"12.9L Dizel","Güç":"530 HP","Vites":"TraXon 12","Dorse":"Platform","Çekiş":"4x2","Yük":"24 Ton"}},
+  {id:36,cat:"tir",name:"Iveco S-Way 570",price:"7.600.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRl-hUxxk2viyGECNqIDpObhT_D6GulRKQIig&s",specs:{"Yıl":"2023","Km":"18.000 km","Motor":"12.9L FPT Dizel","Güç":"570 HP","Vites":"HI-TRONIX 12","Dorse":"Frigorifik","Çekiş":"4x2","Yük":"23 Ton"}},
+  {id:37,cat:"tir",name:"Renault T 520",price:"7.200.000 ₺",img:"https://www.renault-trucks.com.tr/sites/default/files/2023-07/Landing_RT_T-High%20%281%29.jpeg",specs:{"Yıl":"2023","Km":"30.000 km","Motor":"11L Dizel","Güç":"520 HP","Vites":"Optidriver 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"22 Ton"}},
+  {id:38,cat:"tir",name:"Volvo FH 460 LNG",price:"10.500.000 ₺",img:"https://www.truck1.com.tr/img/xxl/570/Cekici-Volvo-FH-460-LNG-Finlandiya_570_2078953001919.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"13L LNG (Doğalgaz)","Güç":"460 HP","Vites":"I-Shift 12","Dorse":"Platform","Çekiş":"4x2","Yük":"20 Ton"}},
+  {id:39,cat:"tir",name:"Scania S 730",price:"12.800.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyvuWGd96Wmu4iWVpZ0apIOPrzxqVAI0XJGw&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"16.4L V8 Dizel","Güç":"730 HP","Vites":"Opticruise 12","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"24 Ton"}},
+  {id:40,cat:"tir",name:"Mercedes Actros 2663",price:"11.200.000 ₺",img:"https://img.linemedia.com/img/s/truck-tractor-Mercedes-Benz-Actros-2663-LS---1722327042032174513_big--24073011104173834500.jpg",specs:{"Yıl":"2024","Km":"2.000 km","Motor":"15.6L OM 473 V8","Güç":"630 HP","Vites":"PowerShift 3","Dorse":"Frigorifik","Çekiş":"6x2","Yük":"26 Ton"}},
+  {id:41,cat:"tir",name:"MAN TGS 8x4 Damper",price:"6.900.000 ₺",img:"https://img.linemedia.com/img/s/dump-truck-MAN-TGS-41-440---1768293768256505295_common--26011310374763417900.jpg",specs:{"Yıl":"2023","Km":"22.000 km","Motor":"12.4L Dizel","Güç":"400 HP","Vites":"ZF 8 AS","Dorse":"Damper Kasa","Çekiş":"8x4","Yük":"30 Ton"}},
+  {id:42,cat:"tir",name:"Ford F-MAX 500",price:"7.100.000 ₺",img:"https://img.linemedia.com/img/s/truck-tractor-Ford-F-MAX-500---1732692915902522863_big--24112709303120031300.jpg",specs:{"Yıl":"2023","Km":"38.000 km","Motor":"12.7L Ecotorq","Güç":"500 HP","Vites":"ZF 12 AS","Dorse":"Tenteli","Çekiş":"4x2","Yük":"23 Ton"}},
+  {id:43,cat:"tir",name:"Iveco Stralis NP (LNG)",price:"9.800.000 ₺",img:"https://d1grzqaobpv15j.cloudfront.net/pa/750-560/1850980/44130012/44130012_1709129250_631.jpg",specs:{"Yıl":"2023","Km":"12.000 km","Motor":"8.7L LNG","Güç":"460 HP","Vites":"Hi-Tronix 12","Dorse":"Platform","Çekiş":"4x2","Yük":"20 Ton"}},
+  {id:44,cat:"tir",name:"Volvo FH Aero",price:"9.500.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS26v-GOm7mWKVGWkax74VrPElwlHYX4H5g1w&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"13L D13 SCR","Güç":"540 HP","Vites":"I-Shift 12","Dorse":"Frigorifik","Çekiş":"4x2","Yük":"25 Ton"}},
+  {id:45,cat:"tir",name:"Scania R 450 Etanol",price:"8.900.000 ₺",img:"https://www.truck1.com.tr/img/xxl/46183/Cekici-Scania-R-450-STREAMLINE-Polonya_46183_5422218358880.jpg",specs:{"Yıl":"2024","Km":"5.500 km","Motor":"13L Etanol","Güç":"450 HP","Vites":"Opticruise 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"22 Ton"}},
+  {id:46,cat:"tir",name:"DAF CF 340",price:"5.600.000 ₺",img:"https://www.lectura-specs.com/models/renamed/orig/tarktor-parcalari-cf-340-ft-daf.jpg",specs:{"Yıl":"2022","Km":"85.000 km","Motor":"10.8L Dizel","Güç":"340 HP","Vites":"TraXon 12","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"20 Ton"}},
+  {id:47,cat:"tir",name:"Mercedes Arocs 4145",price:"8.100.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3YMSvdhyhgrPUjIY8qbmnbbVQT8O36p78xQ&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"10.7L Dizel","Güç":"450 HP","Vites":"PowerShift 3","Dorse":"Beton Mikseri","Çekiş":"8x4","Yük":"28 Ton"}},
+  {id:48,cat:"tir",name:"Renault Premium 460",price:"4.800.000 ₺",img:"https://arbstorage.mncdn.com/ilanfotograflari/2025/06/21/30385401/b070121e-15a1-4bd8-a60d-7cee24850bd9_image_for_silan_30385401_1920x1080.jpg",specs:{"Yıl":"2021","Km":"120.000 km","Motor":"11L DXi Dizel","Güç":"460 HP","Vites":"Optidriver 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"22 Ton"}},
+  {id:49,cat:"tir",name:"Scania P 280 Tıbbi",price:"6.400.000 ₺",img:"https://www.lectura-specs.com/models/renamed/orig/kati-sasiler-p-280-b4x2na-scania(1).jpg",specs:{"Yıl":"2022","Km":"62.000 km","Motor":"9.3L Dizel","Güç":"280 HP","Vites":"Opticruise 12","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"12 Ton"}},
+  {id:50,cat:"tir",name:"MAN TGX 680 V8",price:"14.500.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq7k7ssSE5Ct0ZybLAzOFIZXkCBhLM5OgcrA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"16.2L V8 Dizel","Güç":"680 HP","Vites":"ZF 12 AS","Dorse":"Özel Kasa","Çekiş":"4x2","Yük":"24 Ton"}},
+  {id:51,cat:"tir",name:"Volvo FMX 460 6x6",price:"11.800.000 ₺",img:"https://cdn.truckscout24.com/data/listing/img/vga/ts/14/26/21913763-02.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"13L D13 Dizel","Güç":"460 HP","Vites":"I-Shift 12","Dorse":"Damper","Çekiş":"6x6","Yük":"32 Ton"}},
+  {id:52,cat:"tir",name:"Scania G 410 XT",price:"8.600.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqqR-0G7ikBQX-BpJEA8pKcFZT3IEwkycS9g&s",specs:{"Yıl":"2023","Km":"14.000 km","Motor":"13L Dizel","Güç":"410 HP","Vites":"Opticruise 12","Dorse":"Platform","Çekiş":"4x2","Yük":"22 Ton"}},
+  {id:53,cat:"tir",name:"Iveco T-Way 570",price:"9.200.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsint9B030Fk4AO63JMLcVV-1KARErHVcqSQ&s",specs:{"Yıl":"2024","Km":"3.000 km","Motor":"12.9L Dizel","Güç":"570 HP","Vites":"Hi-Tronix 12","Dorse":"Damper","Çekiş":"6x4","Yük":"30 Ton"}},
+  {id:54,cat:"tir",name:"Ford Trucks 3542 S",price:"6.100.000 ₺",img:"https://img.linemedia.com/img/s/chassis-truck-Ford-Trucks-3542---1541622048709350461_big--18110722195795062200.jpg",specs:{"Yıl":"2022","Km":"55.000 km","Motor":"12.7L Ecotorq","Güç":"420 HP","Vites":"ZF 12","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"22 Ton"}},
+  {id:55,cat:"tir",name:"MAN TGS 6x4 Vinçli",price:"9.900.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaggk4YiEAWZ3BMXDWUsc88w9Te0vjtyyuLQ&s",specs:{"Yıl":"2023","Km":"10.000 km","Motor":"12.4L Dizel","Güç":"440 HP","Vites":"ZF 12 AS","Dorse":"Vinçli Platform","Çekiş":"6x4","Yük":"28 Ton"}},
+  {id:56,cat:"tir",name:"DAF XG+ 530",price:"10.100.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-c5VhVDsYhE2J3_idRVvLHfaldnFi5bbrwA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"12.9L PACCAR MX-13","Güç":"530 HP","Vites":"TraXon 12","Dorse":"Frigorifik","Çekiş":"4x2","Yük":"25 Ton"}},
+  {id:57,cat:"tir",name:"Mercedes Actros eActros",price:"18.000.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4X2wto9l1O054PVOv9pJBcKJb9uEyrOp0RQ&s",specs:{"Yıl":"2024","Km":"500 km","Motor":"Elektrik (3 Motor)","Güç":"536 HP","Vites":"Tek Kademe","Dorse":"Kapalı Kasa","Çekiş":"4x2","Yük":"18 Ton"}},
+  {id:58,cat:"tir",name:"Scania P 360 8x4",price:"8.300.000 ₺",img:"https://img.linemedia.com/img/s/dump-truck-Scania-P360-Kipper-8x4-TOPZUSTAND---1776772806395741706_big--23092210183783122700.jpg",specs:{"Yıl":"2023","Km":"20.000 km","Motor":"9.3L Dizel","Güç":"360 HP","Vites":"Opticruise 12","Dorse":"Beton","Çekiş":"8x4","Yük":"30 Ton"}},
+  {id:59,cat:"tir",name:"Volvo FH 4x2 Euro 6",price:"7.700.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgfdeJ9NWYyjTCte8BYpDFl9OaFiWW3Mh9Aw&s",specs:{"Yıl":"2022","Km":"78.000 km","Motor":"13L D13 Dizel Euro6","Güç":"500 HP","Vites":"I-Shift 12","Dorse":"Tenteli","Çekiş":"4x2","Yük":"24 Ton"}},
+  {id:60,cat:"tir",name:"Renault T High 520",price:"8.050.000 ₺",img:"https://cdn.truckscout24.com/data/listing/img/vga/ts/00/81/20172055-01.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"11L DT13 Dizel","Güç":"520 HP","Vites":"Optidriver 12","Dorse":"Frigorifik","Çekiş":"4x2","Yük":"23 Ton"}},
+  {id:61,cat:"motor",name:"Honda CBR1000RR Fireblade",price:"1.250.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPYWehK_G6uXnR2wnf8ka0XrpUcbm9rOc5Ng&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"999cc 4-Silindir","Güç":"214 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Repsol","Garanti":"2 Yıl"}},
+  {id:62,cat:"motor",name:"Yamaha YZF-R1M",price:"1.450.000 ₺",img:"https://platincdn.com/1209/dosyalar/images/motosikletler/Yamaha/Yamaha%20YZF-R1M.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"998cc Crossplane 4-Silindir","Güç":"200 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"MotoGP Mavi","Garanti":"2 Yıl"}},
+  {id:63,cat:"motor",name:"Ducati Panigale V4",price:"2.100.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROGdH74B5M3oPn7sVaAHSZMOYycNBW6oVxXA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1103cc Desmosedici V4","Güç":"215 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Ducati Kırmızı","Garanti":"2 Yıl"}},
+  {id:64,cat:"motor",name:"Kawasaki Ninja ZX-10R",price:"1.180.000 ₺",img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Kwasaki_ZX-10R_tokyo.JPG/1280px-Kwasaki_ZX-10R_tokyo.JPG",specs:{"Yıl":"2024","Km":"0 km","Motor":"998cc 4-Silindir","Güç":"203 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Lime Green","Garanti":"2 Yıl"}},
+  {id:65,cat:"motor",name:"BMW S1000RR",price:"1.750.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd_jGXR3DPgofc1dyoMfiw-ICL6WvG7RLjPg&s",specs:{"Yıl":"2024","Km":"1.500 km","Motor":"999cc ShiftCam 4-Silindir","Güç":"210 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"M Motorsport","Garanti":"1 Yıl"}},
+  {id:66,cat:"motor",name:"Suzuki GSX-R1000R",price:"980.000 ₺",img:"https://www.globalsuzuki.com/globalnews/2025/img/0731b.jpg",specs:{"Yıl":"2023","Km":"4.200 km","Motor":"999cc 4-Silindir","Güç":"202 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Metallic Triton Mavi","Garanti":"1 Yıl"}},
+  {id:67,cat:"motor",name:"Aprilia RSV4 Factory",price:"1.980.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWz_FdGnro3usBWTCZcuQBkYOib9PGX33JXQ&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1077cc V4","Güç":"217 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Lava Kırmızı","Garanti":"2 Yıl"}},
+  {id:68,cat:"motor",name:"Triumph Speed Triple RS",price:"1.150.000 ₺",img:"https://media.triumphmotorcycles.co.uk/image/upload/t_triumph_square/c_limit,w_3840/f_auto/q_auto:eco/v1736762051/OE_SpeedTriple1200RS_MY25_19101_JP_f8czoo",specs:{"Yıl":"2024","Km":"0 km","Motor":"1160cc 3-Silindir","Güç":"180 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Crystal White","Garanti":"2 Yıl"}},
+  {id:69,cat:"motor",name:"Harley-Davidson Fat Boy",price:"1.680.000 ₺",img:"https://www.harley-davidson.com/ctfasset/5vy1mse9fkav/2lB59WYe0DLIWpzGy5hIOR/c1eb29c439e4862178429596071347fe/2026-fat-boy-beauty-ls-1.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"1868cc Milwaukee-Eight 114","Güç":"95 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Vivid Black","Garanti":"2 Yıl"}},
+  {id:70,cat:"motor",name:"KTM 1290 Super Duke R",price:"1.350.000 ₺",img:"https://www.motosikletonline.com/shop/do/14/myassets/blogs/blog-56.jpg",specs:{"Yıl":"2024","Km":"800 km","Motor":"1301cc V-Twin","Güç":"180 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Turuncu","Garanti":"2 Yıl"}},
+  {id:71,cat:"motor",name:"MV Agusta F4 Claudio",price:"8.500.000 ₺",img:"https://www.motoplanete.com/mv-agusta/zoom-700px/MV-Agusta-1000-F4-Caudio-2019-700px.webp",specs:{"Yıl":"2019","Km":"500 km","Motor":"998cc Radyal 4-Silindir","Güç":"212 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Yarış Gümüşü","Garanti":"1 Yıl"}},
+  {id:72,cat:"motor",name:"Yamaha MT-09 SP",price:"620.000 ₺",img:"https://ridermagazine.com/wp-content/uploads/2024/10/2024-Yamaha-MT-09-SP-review-5.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"890cc Crossplane 3-Silindir","Güç":"119 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Power Black","Garanti":"2 Yıl"}},
+  {id:73,cat:"motor",name:"Honda Africa Twin",price:"780.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrAhesdvW5M3wpEe35sSXItPBrzW4PcQqLww&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1084cc 2-Silindir","Güç":"102 HP","Vites":"6 Manuel / DCT","Yakıt":"Benzin","Renk":"Grand Prix Red","Garanti":"2 Yıl"}},
+  {id:74,cat:"motor",name:"BMW R 1250 GS Adventure",price:"1.100.000 ₺",img:"https://makinavadi.com//img/araclar/27397/4.jpg",specs:{"Yıl":"2024","Km":"2.800 km","Motor":"1254cc Boxer 2-Silindir","Güç":"136 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Kaolin Grey","Garanti":"1 Yıl"}},
+  {id:75,cat:"motor",name:"Ducati Monster SP",price:"890.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlJJ2q_zFUrqyMMWEnYRMzXCPBMUcFj8To8Q&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"937cc Testastretta V2","Güç":"111 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Arctic White","Garanti":"2 Yıl"}},
+  {id:76,cat:"motor",name:"Kawasaki Z H2",price:"1.050.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSKrwfms7jn6RiyUMAcS0eS9mNMQG5pQSQSw&s",specs:{"Yıl":"2024","Km":"1.200 km","Motor":"998cc Süperşarjlı 4-Silindir","Güç":"200 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Metallic Spark Black","Garanti":"2 Yıl"}},
+  {id:77,cat:"motor",name:"Suzuki V-Strom 1050 XT",price:"720.000 ₺",img:"https://www.motoron.com.tr/wp-content/uploads/2020/05/V-Strom-1050-XT-1024x683.jpg",specs:{"Yıl":"2023","Km":"6.300 km","Motor":"1037cc V-Twin","Güç":"107 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Pearl Brilliant White","Garanti":"1 Yıl"}},
+  {id:78,cat:"motor",name:"Indian Scout Bobber",price:"950.000 ₺",img:"https://www.indianmotorcycle.com.tr/fileadmin/templates/model_26/features26/scout-1250/scout-bobber/f2-1.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"1133cc Thunder Stroke V-Twin","Güç":"100 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Black Metallic","Garanti":"2 Yıl"}},
+  {id:79,cat:"motor",name:"Yamaha TMAX 560",price:"520.000 ₺",img:"https://cdn2.yamaha-motor.eu/prod/product-assets/2026/XP500ADX/2026-Yamaha-XP500ADX-EU-Ceramic_Grey-360-Degrees-001-03_Mobile.jpg",specs:{"Yıl":"2024","Km":"3.400 km","Motor":"562cc 2-Silindir","Güç":"47 HP","Vites":"CVT Otomatik","Yakıt":"Benzin","Renk":"Graphite Grey","Garanti":"1 Yıl"}},
+  {id:80,cat:"motor",name:"Honda CB650R",price:"480.000 ₺",img:"https://www.motorcyclistonline.com/resizer/sVnn49EyzoNejDiIKLr0BpEyEFA=/arc-photo-octane/arc3-prod/public/U5XLPUHU2JCVFFGJA5UH5KPVCA.jpg",specs:{"Yıl":"2023","Km":"8.100 km","Motor":"649cc 4-Silindir","Güç":"95 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Mat Gunpowder Black","Garanti":"1 Yıl"}},
+  {id:81,cat:"motor",name:"Ducati Streetfighter V4",price:"1.850.000 ₺",img:"https://images5.1000ps.net/images_bikekat/2025/5-Ducati/9920-Streetfighter_V4_S/001-638684613228458257-ducati-streetfighter-v4-s.jpg",specs:{"Yıl":"2024","Km":"0 km","Motor":"1103cc Desmosedici V4","Güç":"208 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Dark Stealth","Garanti":"2 Yıl"}},
+  {id:82,cat:"motor",name:"KTM 890 Duke R",price:"580.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyRFrntfG2ciCE1QuPSQjiqOS6DaLhM4Rw7g&s",specs:{"Yıl":"2023","Km":"5.600 km","Motor":"889cc 2-Silindir","Güç":"121 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Turuncu","Garanti":"1 Yıl"}},
+  {id:83,cat:"motor",name:"BMW M1000RR",price:"2.900.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVALgveAXMipCa8HnGPhmJgcP_-YSoWCR6Nw&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"999cc ShiftCam 4-Silindir","Güç":"212 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"M Motorsport","Garanti":"2 Yıl"}},
+  {id:84,cat:"motor",name:"Triumph Bonneville T120",price:"680.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaf4YIiqIX3bHNzW_vfI6H1IkAhSdJHO8VaA&s",specs:{"Yıl":"2023","Km":"3.200 km","Motor":"1200cc Parallel Twin","Güç":"80 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Jet Black","Garanti":"1 Yıl"}},
+  {id:85,cat:"motor",name:"Harley-Davidson Street Glide",price:"2.200.000 ₺",img:"https://cdn.room58.com/2022/08/05/ce6fa49d9e39e88db6423fe415790e1f_85eba918f03cd510.png",specs:{"Yıl":"2024","Km":"0 km","Motor":"1923cc Milwaukee-Eight 117","Güç":"105 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Vivid Black","Garanti":"2 Yıl"}},
+  {id:86,cat:"motor",name:"Aprilia Tuono V4 Factory",price:"1.650.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTrUyV_pj5XRvkreunp6vgjLyuyW6rZizRWg&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1077cc V4","Güç":"175 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Gris","Garanti":"2 Yıl"}},
+  {id:87,cat:"motor",name:"Yamaha XSR900",price:"450.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgQBkl7YKdGPAk022WxUT85G2tGmxfjJlaWw&s",specs:{"Yıl":"2023","Km":"7.700 km","Motor":"890cc Crossplane 3-Silindir","Güç":"119 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Tech Black","Garanti":"1 Yıl"}},
+  {id:88,cat:"motor",name:"Kawasaki Versys 1000 SE",price:"820.000 ₺",img:"https://www.kawasaki.com.tr/Photos/Motosiklet/versys1000se/kcmf.png",specs:{"Yıl":"2024","Km":"2.100 km","Motor":"1043cc 4-Silindir","Güç":"120 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Metallic Flat Raw","Garanti":"2 Yıl"}},
+  {id:89,cat:"motor",name:"Ducati Multistrada V4 S",price:"1.750.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDzfkxVWe9tyl8MemIizRHEaHTkojHf_Bh5Q&s",specs:{"Yıl":"2024","Km":"1.900 km","Motor":"1158cc V4","Güç":"170 HP","Vites":"6 İleri","Yakıt":"Benzin","Renk":"Aviator Grey","Garanti":"2 Yıl"}},
+  {id:90,cat:"motor",name:"Honda Gold Wing Tour",price:"1.900.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRxXdapw5MqF0FKDHJ_c7uwUnEjQg_VePykA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1833cc Flat-6","Güç":"126 HP","Vites":"7 DCT","Yakıt":"Benzin","Renk":"Pearl Glare White","Garanti":"2 Yıl"}}
 ];
 
-// ======================================================
-//  LOCALSTORAGE PERSISTENCE
-// ======================================================
-const STORAGE_KEY = "vehiclehub_vehicles";
-const STORAGE_NEXTID = "vehiclehub_nextid";
-
-function saveToStorage() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
-  localStorage.setItem(STORAGE_NEXTID, nextId);
-}
-
-function loadFromStorage() {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    const savedId = localStorage.getItem(STORAGE_NEXTID);
-    if (saved) {
-      vehicles = JSON.parse(saved);
-      nextId = savedId ? parseInt(savedId) : (Math.max(...vehicles.map(v=>v.id)) + 1);
-    }
-  } catch(e) {
-    console.warn("Storage yüklenemedi, varsayılan veriler kullanılıyor.");
-  }
-}
-
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let vehicles = [];
 let nextId = 91;
 let currentCat = "all";
 let currentSearch = "";
 let selectedVehicle = null;
 let pendingDeleteId = null;
+const STORAGE_KEY = "vehiclehub-data";
 
-// İlk yüklemede storage'dan al
-loadFromStorage();
+// ── STORAGE ───────────────────────────────────────────────────────────────────
+async function loadData() {
+  try {
+    const result = await window.storage.get(STORAGE_KEY);
+    if (result && result.value) {
+      const saved = JSON.parse(result.value);
+      vehicles = saved.vehicles;
+      nextId = saved.nextId || (Math.max(...vehicles.map(v=>v.id)) + 1);
+    } else {
+      vehicles = JSON.parse(JSON.stringify(DEFAULT_VEHICLES));
+      nextId = 91;
+      await saveData();
+    }
+  } catch(e) {
+    vehicles = JSON.parse(JSON.stringify(DEFAULT_VEHICLES));
+    nextId = 91;
+  }
+}
 
-// ======================================================
-//  GALLERY RENDER
-// ======================================================
+async function saveData() {
+  try {
+    await window.storage.set(STORAGE_KEY, JSON.stringify({ vehicles, nextId }), true);
+  } catch(e) {
+    console.warn("Kaydetme hatası:", e);
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+async function init() {
+  await loadData();
+  document.getElementById("loadingScreen").style.display = "none";
+  render();
+}
+
+// ── GALLERY ───────────────────────────────────────────────────────────────────
 function getFiltered() {
   return vehicles.filter(v => {
     const catOk  = currentCat === "all" || v.cat === currentCat;
@@ -909,16 +537,20 @@ function getFiltered() {
   });
 }
 
+function catLabel(cat) {
+  return {araba:"🚗 Araba",tir:"🚛 Tır",motor:"🏍️ Motor"}[cat];
+}
+
 function render() {
   const grid = document.getElementById("carGrid");
   const title = document.getElementById("sectionTitle");
   const filtered = getFiltered();
   document.getElementById("statTotal").textContent = vehicles.length;
-  const labels = { all:"Tüm Araçlar", araba:"Arabalar", tir:"Tırlar", motor:"Motorlar" };
+  const labels = {all:"Tüm Araçlar",araba:"Arabalar",tir:"Tırlar",motor:"Motorlar"};
   title.textContent = currentSearch
     ? `"${currentSearch}" için sonuçlar (${filtered.length})`
     : labels[currentCat];
-  if (filtered.length === 0) {
+  if (!filtered.length) {
     grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#888;padding:60px 0;font-size:18px;">Araç bulunamadı 😢</div>`;
     return;
   }
@@ -931,22 +563,16 @@ function render() {
         <h3>${v.name}</h3>
         <div class="card-price">${v.price}</div>
         <div class="card-meta">
-          ${Object.entries(v.specs).slice(0,3).map(([k,val]) =>
-            `<span class="tag">${k}: ${val}</span>`
-          ).join("")}
+          ${Object.entries(v.specs).slice(0,3).map(([k,val])=>`<span class="tag">${k}: ${val}</span>`).join("")}
         </div>
       </div>
     </div>
   `).join("");
 }
 
-function catLabel(cat) {
-  return { araba:"🚗 Araba", tir:"🚛 Tır", motor:"🏍️ Motor" }[cat];
-}
-
 document.querySelectorAll(".nav-btn").forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
     btn.classList.add("active");
     currentCat = btn.dataset.cat;
     currentSearch = "";
@@ -961,143 +587,121 @@ function filterBySearch() {
 }
 document.getElementById("searchInput").addEventListener("keydown", e => { if(e.key==="Enter") filterBySearch(); });
 
-// ======================================================
-//  DETAIL MODAL
-// ======================================================
+// ── DETAIL MODAL ──────────────────────────────────────────────────────────────
 function openDetail(id) {
-  selectedVehicle = vehicles.find(v => v.id === id);
+  selectedVehicle = vehicles.find(v=>v.id===id);
   if (!selectedVehicle) return;
   document.getElementById("modalImg").src = selectedVehicle.img;
   document.getElementById("modalTitle").textContent = selectedVehicle.name;
   document.getElementById("modalPrice").textContent = selectedVehicle.price;
   const badge = document.getElementById("modalCat");
   badge.textContent = catLabel(selectedVehicle.cat);
-  badge.className = "modal-badge cat-" + selectedVehicle.cat;
-  document.getElementById("modalSpecs").innerHTML = Object.entries(selectedVehicle.specs).map(([k,val]) => `
+  badge.className = "modal-badge cat-"+selectedVehicle.cat;
+  document.getElementById("modalSpecs").innerHTML = Object.entries(selectedVehicle.specs).map(([k,val])=>`
     <div class="spec-item"><div class="spec-label">${k}</div><div class="spec-val">${val}</div></div>
   `).join("");
   openModal("detailModal");
 }
 
-// ======================================================
-//  ORDER
-// ======================================================
+// ── ORDER ─────────────────────────────────────────────────────────────────────
 function openOrder() {
   if (!selectedVehicle) return;
   document.getElementById("orderVehicleName").textContent = `Seçilen araç: ${selectedVehicle.name} — ${selectedVehicle.price}`;
-  ["firstName","lastName","tcNo","phone","email"].forEach(id => { document.getElementById(id).value = ""; });
+  ["firstName","lastName","tcNo","phone","email"].forEach(id=>{document.getElementById(id).value="";});
   closeModal("detailModal");
   openModal("orderModal");
 }
 
 function submitOrder() {
-  const firstName = document.getElementById("firstName").value.trim();
-  const lastName  = document.getElementById("lastName").value.trim();
-  const tcNo      = document.getElementById("tcNo").value.trim();
-  const phone     = document.getElementById("phone").value.trim();
-  const email     = document.getElementById("email").value.trim();
-  if (!firstName||!lastName||!tcNo||!phone||!email) { alert("Lütfen tüm alanları doldurunuz."); return; }
-  if (!/^\d{11}$/.test(tcNo)) { alert("TC Kimlik No 11 haneli olmalıdır."); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert("Geçerli bir e-posta adresi giriniz."); return; }
-  const orderNum = "VH-" + Date.now().toString().slice(-6);
-  document.getElementById("successMsg").innerHTML =
-    `<strong>${firstName} ${lastName}</strong> adına<br/>
-     <strong>${selectedVehicle.name}</strong> için sipariş oluşturuldu.<br/><br/>
-     📋 Sipariş No: <strong>${orderNum}</strong><br/>📞 ${phone}<br/>📧 ${email}`;
+  const firstName=document.getElementById("firstName").value.trim();
+  const lastName=document.getElementById("lastName").value.trim();
+  const tcNo=document.getElementById("tcNo").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const email=document.getElementById("email").value.trim();
+  if(!firstName||!lastName||!tcNo||!phone||!email){alert("Lütfen tüm alanları doldurunuz.");return;}
+  if(!/^\d{11}$/.test(tcNo)){alert("TC Kimlik No 11 haneli olmalıdır.");return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert("Geçerli bir e-posta adresi giriniz.");return;}
+  const orderNum="VH-"+Date.now().toString().slice(-6);
+  document.getElementById("successMsg").innerHTML=`<strong>${firstName} ${lastName}</strong> adına<br/><strong>${selectedVehicle.name}</strong> için sipariş oluşturuldu.<br/><br/>📋 Sipariş No: <strong>${orderNum}</strong><br/>📞 ${phone}<br/>📧 ${email}`;
   closeModal("orderModal");
   openModal("successModal");
 }
 
-// ======================================================
-//  MODAL HELPERS
-// ======================================================
-function openModal(id) { document.getElementById(id).classList.add("open"); document.body.style.overflow = "hidden"; }
-function closeModal(id) { document.getElementById(id).classList.remove("open"); document.body.style.overflow = ""; }
-
-document.querySelectorAll(".modal-overlay").forEach(overlay => {
-  overlay.addEventListener("click", e => { if(e.target===overlay) closeModal(overlay.id); });
+// ── MODAL HELPERS ─────────────────────────────────────────────────────────────
+function openModal(id){document.getElementById(id).classList.add("open");document.body.style.overflow="hidden";}
+function closeModal(id){document.getElementById(id).classList.remove("open");document.body.style.overflow="";}
+document.querySelectorAll(".modal-overlay").forEach(overlay=>{
+  overlay.addEventListener("click",e=>{if(e.target===overlay)closeModal(overlay.id);});
 });
-document.addEventListener("keydown", e => {
-  if(e.key==="Escape") ["detailModal","orderModal","successModal"].forEach(id => closeModal(id));
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")["detailModal","orderModal","successModal"].forEach(id=>closeModal(id));
 });
 
-// ======================================================
-//  ADMIN LOGIN
-// ======================================================
-const ADMIN_CREDENTIALS = { username: "admin", password: "admin123" };
-let adminAuthenticated = false;
+// ── ADMIN LOGIN ───────────────────────────────────────────────────────────────
+const ADMIN_CREDENTIALS={username:"admin",password:"admin123"};
+let adminAuthenticated=false;
 
-function openAdmin() {
-  if (adminAuthenticated) {
-    launchAdminPanel();
-  } else {
-    document.getElementById("loginUsername").value = "";
-    document.getElementById("loginPassword").value = "";
+function openAdmin(){
+  if(adminAuthenticated){launchAdminPanel();}
+  else{
+    document.getElementById("loginUsername").value="";
+    document.getElementById("loginPassword").value="";
     document.getElementById("loginError").classList.remove("show");
     document.getElementById("adminLoginOverlay").classList.add("open");
-    setTimeout(() => document.getElementById("loginUsername").focus(), 100);
+    setTimeout(()=>document.getElementById("loginUsername").focus(),100);
   }
 }
-
-function closeAdminLogin() {
-  document.getElementById("adminLoginOverlay").classList.remove("open");
-}
-
-function doAdminLogin() {
-  const u = document.getElementById("loginUsername").value.trim();
-  const p = document.getElementById("loginPassword").value;
-  if (u === ADMIN_CREDENTIALS.username && p === ADMIN_CREDENTIALS.password) {
-    adminAuthenticated = true;
+function closeAdminLogin(){document.getElementById("adminLoginOverlay").classList.remove("open");}
+function doAdminLogin(){
+  const u=document.getElementById("loginUsername").value.trim();
+  const p=document.getElementById("loginPassword").value;
+  if(u===ADMIN_CREDENTIALS.username&&p===ADMIN_CREDENTIALS.password){
+    adminAuthenticated=true;
     document.getElementById("adminLoginOverlay").classList.remove("open");
     launchAdminPanel();
   } else {
-    const err = document.getElementById("loginError");
+    const err=document.getElementById("loginError");
     err.classList.add("show");
-    document.getElementById("loginPassword").value = "";
+    document.getElementById("loginPassword").value="";
     document.getElementById("loginPassword").focus();
-    setTimeout(() => err.classList.remove("show"), 3000);
+    setTimeout(()=>err.classList.remove("show"),3000);
   }
 }
-
-function launchAdminPanel() {
+function launchAdminPanel(){
   document.getElementById("adminPanel").classList.add("open");
   document.getElementById("adminToggleBtn").classList.add("admin-active");
-  document.body.style.overflow = "hidden";
+  document.body.style.overflow="hidden";
   refreshAdminData();
 }
-
-function closeAdmin() {
+function closeAdmin(){
   document.getElementById("adminPanel").classList.remove("open");
   document.getElementById("adminToggleBtn").classList.remove("admin-active");
-  document.body.style.overflow = "";
+  document.body.style.overflow="";
   render();
 }
-
-function switchAdminSection(section) {
-  document.querySelectorAll(".admin-nav-item").forEach(i => i.classList.remove("active"));
+function switchAdminSection(section){
+  document.querySelectorAll(".admin-nav-item").forEach(i=>i.classList.remove("active"));
   document.querySelector(`[data-section="${section}"]`).classList.add("active");
-  document.querySelectorAll(".admin-section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".admin-section").forEach(s=>s.classList.remove("active"));
   document.getElementById(`section-${section}`).classList.add("active");
   renderAdminTable(section);
 }
-
-function refreshAdminData() {
-  const total  = vehicles.length;
-  const arabas = vehicles.filter(v=>v.cat==="araba").length;
-  const tirlar = vehicles.filter(v=>v.cat==="tir").length;
-  const motors = vehicles.filter(v=>v.cat==="motor").length;
-  document.getElementById("adminVehicleCount").textContent = `Toplam ${total} araç`;
-  document.getElementById("dashStats").innerHTML = `
+function refreshAdminData(){
+  const total=vehicles.length;
+  const arabas=vehicles.filter(v=>v.cat==="araba").length;
+  const tirlar=vehicles.filter(v=>v.cat==="tir").length;
+  const motors=vehicles.filter(v=>v.cat==="motor").length;
+  document.getElementById("adminVehicleCount").textContent=`Toplam ${total} araç`;
+  document.getElementById("dashStats").innerHTML=`
     <div class="stat-card"><div class="stat-card-label">Toplam Araç</div><div class="stat-card-value yellow">${total}</div><div class="stat-card-sub">Tüm kategoriler</div></div>
     <div class="stat-card"><div class="stat-card-label">Arabalar</div><div class="stat-card-value orange">${arabas}</div><div class="stat-card-sub">🚗 Kategori</div></div>
     <div class="stat-card"><div class="stat-card-label">Tırlar</div><div class="stat-card-value blue">${tirlar}</div><div class="stat-card-sub">🚛 Kategori</div></div>
     <div class="stat-card"><div class="stat-card-label">Motorlar</div><div class="stat-card-value green">${motors}</div><div class="stat-card-sub">🏍️ Kategori</div></div>
   `;
-  // recent 10
-  const recent = [...vehicles].reverse().slice(0,10);
-  document.getElementById("recentTable").innerHTML = recent.map(v => `
+  const recent=[...vehicles].reverse().slice(0,10);
+  document.getElementById("recentTable").innerHTML=recent.map(v=>`
     <tr>
-      <td><img class="table-img" src="${v.img}" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=60'" /></td>
+      <td><img class="table-img" src="${v.img}" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=60'"/></td>
       <td class="table-name">${v.name}</td>
       <td><span class="cat-badge cat-${v.cat}">${catLabel(v.cat)}</span></td>
       <td class="table-price">${v.price}</td>
@@ -1110,43 +714,32 @@ function refreshAdminData() {
   renderAdminTable("tir");
   renderAdminTable("motor");
 }
-
-function renderAdminTable(catOrSection) {
-  let cat, tbodyId, searchId, filterSel = null;
-  if (catOrSection === "all" || catOrSection === "vehicles") {
-    cat = "all"; tbodyId = "adminTableBody"; searchId = "adminSearch"; filterSel = "adminCatFilter";
-  } else if (catOrSection === "araba" || catOrSection === "arabalar") {
-    cat = "araba"; tbodyId = "adminTableAraba"; searchId = "adminSearchAraba";
-  } else if (catOrSection === "tir" || catOrSection === "tirlar") {
-    cat = "tir"; tbodyId = "adminTableTir"; searchId = "adminSearchTir";
-  } else if (catOrSection === "motor" || catOrSection === "motorlar") {
-    cat = "motor"; tbodyId = "adminTableMotor"; searchId = "adminSearchMotor";
-  } else { return; }
-
-  const searchEl = document.getElementById(searchId);
-  const query = searchEl ? searchEl.value.toLowerCase() : "";
-  const catFilter = filterSel ? document.getElementById(filterSel)?.value || "all" : cat;
-
-  let filtered = vehicles.filter(v => {
-    const catOk = catFilter === "all" ? true : v.cat === catFilter;
-    const searchOk = v.name.toLowerCase().includes(query);
-    return catOk && searchOk;
+function renderAdminTable(catOrSection){
+  let cat,tbodyId,searchId,filterSel=null;
+  if(catOrSection==="all"||catOrSection==="vehicles"){cat="all";tbodyId="adminTableBody";searchId="adminSearch";filterSel="adminCatFilter";}
+  else if(catOrSection==="araba"||catOrSection==="arabalar"){cat="araba";tbodyId="adminTableAraba";searchId="adminSearchAraba";}
+  else if(catOrSection==="tir"||catOrSection==="tirlar"){cat="tir";tbodyId="adminTableTir";searchId="adminSearchTir";}
+  else if(catOrSection==="motor"||catOrSection==="motorlar"){cat="motor";tbodyId="adminTableMotor";searchId="adminSearchMotor";}
+  else return;
+  const searchEl=document.getElementById(searchId);
+  const query=searchEl?searchEl.value.toLowerCase():"";
+  const catFilter=filterSel?document.getElementById(filterSel)?.value||"all":cat;
+  let filtered=vehicles.filter(v=>{
+    const catOk=catFilter==="all"?true:v.cat===catFilter;
+    const searchOk=v.name.toLowerCase().includes(query);
+    return catOk&&searchOk;
   });
-  if (cat !== "all") filtered = vehicles.filter(v => v.cat === cat && v.name.toLowerCase().includes(query));
-
-  const tbody = document.getElementById(tbodyId);
-  if (!tbody) return;
-  if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" class="empty-table">Araç bulunamadı.</td></tr>`;
-    return;
-  }
-  const specKey = cat === "tir" ? "Güç" : "Motor";
-  tbody.innerHTML = filtered.map((v,i) => `
+  if(cat!=="all")filtered=vehicles.filter(v=>v.cat===cat&&v.name.toLowerCase().includes(query));
+  const tbody=document.getElementById(tbodyId);
+  if(!tbody)return;
+  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="8" class="empty-table">Araç bulunamadı.</td></tr>`;return;}
+  const specKey=cat==="tir"?"Güç":"Motor";
+  tbody.innerHTML=filtered.map((v,i)=>`
     <tr>
       <td style="color:var(--muted);font-size:13px">${i+1}</td>
-      <td><img class="table-img" src="${v.img}" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=60'" /></td>
+      <td><img class="table-img" src="${v.img}" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=60'"/></td>
       <td class="table-name">${v.name}</td>
-      ${cat === "all" ? `<td><span class="cat-badge cat-${v.cat}">${catLabel(v.cat)}</span></td>` : ""}
+      ${cat==="all"?`<td><span class="cat-badge cat-${v.cat}">${catLabel(v.cat)}</span></td>`:""}
       <td class="table-price">${v.price}</td>
       <td>${v.specs["Yıl"]||"-"}</td>
       <td>${v.specs["Km"]||"-"}</td>
@@ -1161,154 +754,118 @@ function renderAdminTable(catOrSection) {
   `).join("");
 }
 
-// ======================================================
-//  ADD / EDIT MODAL
-// ======================================================
-let specRowCount = 0;
-
-function openAddModal(defaultCat) {
-  document.getElementById("formModalTitle").innerHTML = 'YENİ <span>ARAÇ</span>';
-  document.getElementById("formVehicleId").value = "";
-  document.getElementById("fName").value = "";
-  document.getElementById("fCat").value = defaultCat || "araba";
-  document.getElementById("fPrice").value = "";
-  document.getElementById("fImg").value = "";
-  document.getElementById("imgPreview").className = "img-preview";
-  // default specs
-  const defaults = defaultCat === "tir"
-    ? [["Yıl","2024"],["Km","0 km"],["Motor",""],["Güç",""],["Vites",""],["Dorse",""],["Çekiş",""],["Yük",""]]
-    : defaultCat === "motor"
-    ? [["Yıl","2024"],["Km","0 km"],["Motor",""],["Güç",""],["Vites",""],["Yakıt","Benzin"],["Renk",""],["Garanti","2 Yıl"]]
-    : [["Yıl","2024"],["Km","0 km"],["Motor",""],["Güç",""],["Vites",""],["Yakıt","Benzin"],["Renk",""],["Garanti","2 Yıl"]];
+// ── ADD / EDIT ────────────────────────────────────────────────────────────────
+let specRowCount=0;
+function openAddModal(defaultCat){
+  document.getElementById("formModalTitle").innerHTML='YENİ <span>ARAÇ</span>';
+  document.getElementById("formVehicleId").value="";
+  document.getElementById("fName").value="";
+  document.getElementById("fCat").value=defaultCat||"araba";
+  document.getElementById("fPrice").value="";
+  document.getElementById("fImg").value="";
+  document.getElementById("imgPreview").className="img-preview";
+  const defaults=defaultCat==="tir"
+    ?[["Yıl","2024"],["Km","0 km"],["Motor",""],["Güç",""],["Vites",""],["Dorse",""],["Çekiş",""],["Yük",""]]
+    :defaultCat==="motor"
+    ?[["Yıl","2024"],["Km","0 km"],["Motor",""],["Güç",""],["Vites",""],["Yakıt","Benzin"],["Renk",""],["Garanti","2 Yıl"]]
+    :[["Yıl","2024"],["Km","0 km"],["Motor",""],["Güç",""],["Vites",""],["Yakıt","Benzin"],["Renk",""],["Garanti","2 Yıl"]];
   buildSpecsEditor(defaults);
   document.getElementById("vehicleFormModal").classList.add("open");
 }
-
-function openEditModal(id) {
-  const v = vehicles.find(x => x.id === id);
-  if (!v) return;
-  document.getElementById("formModalTitle").innerHTML = 'ARACI <span>DÜZENLE</span>';
-  document.getElementById("formVehicleId").value = v.id;
-  document.getElementById("fName").value = v.name;
-  document.getElementById("fCat").value = v.cat;
-  document.getElementById("fPrice").value = v.price;
-  document.getElementById("fImg").value = v.img;
-  const prev = document.getElementById("imgPreview");
-  prev.src = v.img; prev.className = "img-preview show";
+function openEditModal(id){
+  const v=vehicles.find(x=>x.id===id);
+  if(!v)return;
+  document.getElementById("formModalTitle").innerHTML='ARACI <span>DÜZENLE</span>';
+  document.getElementById("formVehicleId").value=v.id;
+  document.getElementById("fName").value=v.name;
+  document.getElementById("fCat").value=v.cat;
+  document.getElementById("fPrice").value=v.price;
+  document.getElementById("fImg").value=v.img;
+  const prev=document.getElementById("imgPreview");
+  prev.src=v.img;prev.className="img-preview show";
   buildSpecsEditor(Object.entries(v.specs));
   document.getElementById("vehicleFormModal").classList.add("open");
 }
-
-function buildSpecsEditor(entries) {
-  specRowCount = 0;
-  const editor = document.getElementById("specsEditor");
-  editor.innerHTML = "";
-  entries.forEach(([k,v]) => addSpecRow(k, v));
+function buildSpecsEditor(entries){
+  specRowCount=0;
+  document.getElementById("specsEditor").innerHTML="";
+  entries.forEach(([k,v])=>addSpecRow(k,v));
 }
-
-function addSpecRow(key="", val="") {
-  const id = specRowCount++;
-  const editor = document.getElementById("specsEditor");
-  const row = document.createElement("div");
-  row.className = "specs-editor-row";
-  row.id = `specRow_${id}`;
-  row.innerHTML = `
-    <input type="text" placeholder="Özellik (örn: Motor)" value="${key}" data-type="key"/>
-    <input type="text" placeholder="Değer (örn: 3.0L V6)" value="${val}" data-type="val"/>
-    <button class="spec-del-btn" onclick="removeSpecRow('specRow_${id}')">✕</button>
-  `;
+function addSpecRow(key="",val=""){
+  const id=specRowCount++;
+  const editor=document.getElementById("specsEditor");
+  const row=document.createElement("div");
+  row.className="specs-editor-row";row.id=`specRow_${id}`;
+  row.innerHTML=`<input type="text" placeholder="Özellik" value="${key}" data-type="key"/><input type="text" placeholder="Değer" value="${val}" data-type="val"/><button class="spec-del-btn" onclick="removeSpecRow('specRow_${id}')">✕</button>`;
   editor.appendChild(row);
 }
-
-function removeSpecRow(id) {
-  const el = document.getElementById(id);
-  if (el) el.remove();
+function removeSpecRow(id){const el=document.getElementById(id);if(el)el.remove();}
+function previewImg(){
+  const url=document.getElementById("fImg").value.trim();
+  const prev=document.getElementById("imgPreview");
+  if(url){prev.src=url;prev.className="img-preview show";}
+  else{prev.className="img-preview";}
 }
-
-function previewImg() {
-  const url = document.getElementById("fImg").value.trim();
-  const prev = document.getElementById("imgPreview");
-  if (url) { prev.src = url; prev.className = "img-preview show"; }
-  else { prev.className = "img-preview"; }
-}
-
-function saveVehicle() {
-  const name  = document.getElementById("fName").value.trim();
-  const cat   = document.getElementById("fCat").value;
-  const price = document.getElementById("fPrice").value.trim();
-  const img   = document.getElementById("fImg").value.trim();
-  if (!name || !price || !img) { showToast("Araç adı, fiyat ve görsel URL zorunludur!", "error"); return; }
-
-  const specs = {};
-  document.querySelectorAll(".specs-editor-row").forEach(row => {
-    const key = row.querySelector("[data-type='key']").value.trim();
-    const val = row.querySelector("[data-type='val']").value.trim();
-    if (key) specs[key] = val;
+async function saveVehicle(){
+  const name=document.getElementById("fName").value.trim();
+  const cat=document.getElementById("fCat").value;
+  const price=document.getElementById("fPrice").value.trim();
+  const img=document.getElementById("fImg").value.trim();
+  if(!name||!price||!img){showToast("Araç adı, fiyat ve görsel URL zorunludur!","error");return;}
+  const specs={};
+  document.querySelectorAll(".specs-editor-row").forEach(row=>{
+    const key=row.querySelector("[data-type='key']").value.trim();
+    const val=row.querySelector("[data-type='val']").value.trim();
+    if(key)specs[key]=val;
   });
-
-  const editId = document.getElementById("formVehicleId").value;
-  if (editId) {
-    const idx = vehicles.findIndex(v => v.id == editId);
-    if (idx > -1) { vehicles[idx] = { ...vehicles[idx], name, cat, price, img, specs }; }
-    showToast(`✅ "${name}" güncellendi!`, "success");
+  const editId=document.getElementById("formVehicleId").value;
+  if(editId){
+    const idx=vehicles.findIndex(v=>v.id==editId);
+    if(idx>-1){vehicles[idx]={...vehicles[idx],name,cat,price,img,specs};}
+    showToast(`✅ "${name}" güncellendi!`,"success");
   } else {
-    vehicles.push({ id: nextId++, cat, name, price, img, specs });
-    showToast(`✅ "${name}" eklendi!`, "success");
+    vehicles.push({id:nextId++,cat,name,price,img,specs});
+    showToast(`✅ "${name}" eklendi!`,"success");
   }
-  saveToStorage();
+  await saveData();
   closeAdminModal();
   refreshAdminData();
 }
+function closeAdminModal(){document.getElementById("vehicleFormModal").classList.remove("open");}
 
-function closeAdminModal() {
-  document.getElementById("vehicleFormModal").classList.remove("open");
-}
-
-// ======================================================
-//  DELETE
-// ======================================================
-function askDelete(id) {
-  const v = vehicles.find(x => x.id === id);
-  if (!v) return;
-  pendingDeleteId = id;
-  document.getElementById("confirmDeleteMsg").textContent =
-    `"${v.name}" aracını silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`;
+// ── DELETE ────────────────────────────────────────────────────────────────────
+function askDelete(id){
+  const v=vehicles.find(x=>x.id===id);
+  if(!v)return;
+  pendingDeleteId=id;
+  document.getElementById("confirmDeleteMsg").textContent=`"${v.name}" aracını silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`;
   document.getElementById("confirmDeleteModal").classList.add("open");
 }
-
-function confirmDelete() {
-  if (!pendingDeleteId) return;
-  const v = vehicles.find(x => x.id === pendingDeleteId);
-  vehicles = vehicles.filter(x => x.id !== pendingDeleteId);
-  showToast(`🗑️ "${v?.name}" silindi.`, "info");
-  pendingDeleteId = null;
-  saveToStorage();
+async function confirmDelete(){
+  if(!pendingDeleteId)return;
+  const v=vehicles.find(x=>x.id===pendingDeleteId);
+  vehicles=vehicles.filter(x=>x.id!==pendingDeleteId);
+  showToast(`🗑️ "${v?.name}" silindi.`,"info");
+  pendingDeleteId=null;
+  await saveData();
   closeAdminModal2();
   refreshAdminData();
 }
+function closeAdminModal2(){document.getElementById("confirmDeleteModal").classList.remove("open");pendingDeleteId=null;}
 
-function closeAdminModal2() {
-  document.getElementById("confirmDeleteModal").classList.remove("open");
-  pendingDeleteId = null;
-}
-
-// ======================================================
-//  TOAST
-// ======================================================
-function showToast(msg, type="info") {
-  const container = document.getElementById("toastContainer");
-  const toast = document.createElement("div");
-  toast.className = `toast ${type}`;
-  const icons = { success:"✅", error:"❌", info:"ℹ️" };
-  toast.innerHTML = `<span>${icons[type]||"ℹ️"}</span><span>${msg}</span>`;
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+function showToast(msg,type="info"){
+  const container=document.getElementById("toastContainer");
+  const toast=document.createElement("div");
+  toast.className=`toast ${type}`;
+  const icons={success:"✅",error:"❌",info:"ℹ️"};
+  toast.innerHTML=`<span>${icons[type]||"ℹ️"}</span><span>${msg}</span>`;
   container.appendChild(toast);
-  setTimeout(() => { toast.style.opacity="0"; toast.style.transform="translateX(20px)"; toast.style.transition="all 0.3s"; setTimeout(()=>toast.remove(), 300); }, 3000);
+  setTimeout(()=>{toast.style.opacity="0";toast.style.transform="translateX(20px)";toast.style.transition="all .3s";setTimeout(()=>toast.remove(),300);},3000);
 }
 
-// ======================================================
-//  INIT
-// ======================================================
-render();
-  </script>
+// ── START ─────────────────────────────────────────────────────────────────────
+init();
+</script>
 </body>
 </html>
