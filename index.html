@@ -1,112 +1,271 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>selosatış – Araç Galerisi</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <title>selosatış – Admin Paneli</title>
+  <link rel="stylesheet" href="admin.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 </head>
 <body>
-
-  <!-- HEADER -->
-  <header>
-    <div class="logo">VEHICLE<span>HUB</span></div>
-    <nav>
-      <button class="nav-btn active" data-cat="all">Tümü</button>
-      <button class="nav-btn" data-cat="araba">🚗 Arabalar</button>
-      <button class="nav-btn" data-cat="tir">🚛 Tırlar</button>
-      <button class="nav-btn" data-cat="motor">🏍️ Motorlar</button>
+ 
+<!-- ══════════════ GİRİŞ EKRANI ══════════════ -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-box">
+    <div class="login-logo">VEHICLE<span>HUB</span></div>
+    <p class="login-sub">Admin Paneli</p>
+    <div id="loginError" class="login-error" style="display:none">❌ Kullanıcı adı veya şifre yanlış!</div>
+    <div class="form-group">
+      <label>Kullanıcı Adı</label>
+      <input type="text" id="loginUser" placeholder="admin" autocomplete="username"/>
+    </div>
+    <div class="form-group">
+      <label>Şifre</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+    <button class="btn-primary" id="loginBtn">Giriş Yap →</button>
+    <p class="login-hint">Varsayılan: <b>admin</b> / <b>1234</b></p>
+  </div>
+</div>
+ 
+<!-- ══════════════ ADMIN PANELİ ══════════════ -->
+<div id="adminPanel" class="admin-panel" style="display:none">
+ 
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">VEHICLE<span>HUB</span><br/><small>Admin</small></div>
+    <nav class="sidebar-nav">
+      <button class="sn-btn active" data-tab="dashboard">📊 Dashboard</button>
+      <button class="sn-btn" data-tab="vehicles">🚘 Araçlar</button>
+      <button class="sn-btn" data-tab="add">➕ Araç Ekle</button>
+      <button class="sn-btn" data-tab="orders">📋 Siparişler</button>
+      <button class="sn-btn" data-tab="settings">⚙️ Ayarlar</button>
     </nav>
-    <div class="header-sub">Türkiye'nin En Büyük Araç Galerisi</div>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Her Araca<br/><span>En İyi Fiyat</span></h1>
-      <p>Araba, tır ve motor kategorilerinde yüzlerce araç sizi bekliyor.</p>
+    <div class="sidebar-footer">
+      <span id="adminName">admin</span>
+      <button id="logoutBtn" class="btn-logout">Çıkış</button>
     </div>
-    <div class="hero-stats">
-      <div><strong>300+</strong><span>Araç</span></div>
-      <div><strong>3</strong><span>Kategori</span></div>
-      <div><strong>%100</strong><span>Güvenli</span></div>
+  </aside>
+ 
+  <!-- MAIN -->
+  <main class="admin-main">
+ 
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-right">
+        <a href="index.html" target="_blank" class="btn-site">🌐 Siteyi Gör</a>
+        <div class="topbar-time" id="topbarTime"></div>
+      </div>
     </div>
-  </section>
-
-  <!-- SEARCH -->
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Araç ara... (örn: BMW, Volvo, Honda)" />
-    <button onclick="filterBySearch()">🔍 Ara</button>
-  </div>
-
-  <!-- GRID -->
-  <main>
-    <div class="section-title" id="sectionTitle">Tüm Araçlar</div>
-    <div class="grid" id="carGrid"></div>
+ 
+    <!-- ── DASHBOARD ── -->
+    <section id="tab-dashboard" class="tab active">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🚗</div>
+          <div class="stat-info"><div class="stat-val" id="st-cars">0</div><div class="stat-label">Araba</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🚛</div>
+          <div class="stat-info"><div class="stat-val" id="st-tirs">0</div><div class="stat-label">Tır</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏍️</div>
+          <div class="stat-info"><div class="stat-val" id="st-motors">0</div><div class="stat-label">Motor</div></div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-icon">📋</div>
+          <div class="stat-info"><div class="stat-val" id="st-orders">0</div><div class="stat-label">Sipariş</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔢</div>
+          <div class="stat-info"><div class="stat-val" id="st-total">0</div><div class="stat-label">Toplam Araç</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-info"><div class="stat-val" id="st-avg">—</div><div class="stat-label">Ort. Fiyat</div></div>
+        </div>
+      </div>
+      <div class="dash-row">
+        <div class="dash-box">
+          <h3>Son Araçlar</h3>
+          <table class="mini-table">
+            <thead><tr><th>Araç</th><th>Kat.</th><th>Fiyat</th><th>Yıl</th></tr></thead>
+            <tbody id="recentVehicles"></tbody>
+          </table>
+        </div>
+        <div class="dash-box">
+          <h3>Son Siparişler</h3>
+          <table class="mini-table">
+            <thead><tr><th>Ad Soyad</th><th>Araç</th><th>Tarih</th></tr></thead>
+            <tbody id="recentOrders"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- ── ARAÇLAR ── -->
+    <section id="tab-vehicles" class="tab">
+      <div class="tab-toolbar">
+        <input type="text" id="vSearch" placeholder="Araç ara…" class="toolbar-input"/>
+        <select id="vCatFilter" class="toolbar-select">
+          <option value="all">Tüm Kategoriler</option>
+          <option value="araba">🚗 Araba</option>
+          <option value="tir">🚛 Tır</option>
+          <option value="motor">🏍️ Motor</option>
+        </select>
+        <span class="toolbar-count" id="vCount"></span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>#</th><th>Araç</th><th>Kategori</th><th>Yıl</th><th>KM</th><th>Fiyat</th><th>İşlemler</th></tr>
+          </thead>
+          <tbody id="vehicleTbody"></tbody>
+        </table>
+      </div>
+    </section>
+ 
+    <!-- ── ARAÇ EKLE ── -->
+    <section id="tab-add" class="tab">
+      <div class="form-card">
+        <h2>Yeni Araç Ekle</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Kategori *</label>
+            <select id="aCat">
+              <option value="araba">🚗 Araba</option>
+              <option value="tir">🚛 Tır</option>
+              <option value="motor">🏍️ Motor</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Araç Adı *</label>
+            <input type="text" id="aName" placeholder="BMW M3 Competition"/>
+          </div>
+          <div class="form-group">
+            <label>Fiyat *</label>
+            <input type="text" id="aPrice" placeholder="1.500.000 ₺"/>
+          </div>
+          <div class="form-group">
+            <label>Yıl *</label>
+            <input type="text" id="aYil" placeholder="2024"/>
+          </div>
+          <div class="form-group">
+            <label>KM *</label>
+            <input type="text" id="aKm" placeholder="0 km"/>
+          </div>
+          <div class="form-group">
+            <label>Motor</label>
+            <input type="text" id="aMotor" placeholder="2.0L 4-Silindir Turbo"/>
+          </div>
+          <div class="form-group">
+            <label>Güç (HP)</label>
+            <input type="text" id="aGuc" placeholder="204 HP"/>
+          </div>
+          <div class="form-group">
+            <label>Yakıt</label>
+            <input type="text" id="aYakit" placeholder="Benzin"/>
+          </div>
+          <div class="form-group">
+            <label>Renk</label>
+            <input type="text" id="aRenk" placeholder="Siyah"/>
+          </div>
+          <div class="form-group">
+            <label>Vites</label>
+            <input type="text" id="aVites" placeholder="Otomatik"/>
+          </div>
+          <div class="form-group full">
+            <label>Fotoğraf URL</label>
+            <input type="text" id="aImg" placeholder="https://..."/>
+          </div>
+        </div>
+        <div id="addError" class="form-error" style="display:none"></div>
+        <button class="btn-primary" id="addVehicleBtn">✅ Aracı Ekle</button>
+      </div>
+    </section>
+ 
+    <!-- ── SİPARİŞLER ── -->
+    <section id="tab-orders" class="tab">
+      <div class="tab-toolbar">
+        <input type="text" id="oSearch" placeholder="Sipariş ara…" class="toolbar-input"/>
+        <button class="btn-danger" id="clearOrdersBtn">🗑️ Tümünü Sil</button>
+        <span class="toolbar-count" id="oCount"></span>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>#</th><th>Ad Soyad</th><th>T.C.</th><th>Telefon</th><th>E-posta</th><th>Araç</th><th>Fiyat</th><th>Tarih</th><th>İşlem</th></tr>
+          </thead>
+          <tbody id="orderTbody"></tbody>
+        </table>
+        <div id="noOrders" class="empty-state" style="display:none">Henüz sipariş yok.</div>
+      </div>
+    </section>
+ 
+    <!-- ── AYARLAR ── -->
+    <section id="tab-settings" class="tab">
+      <div class="form-card">
+        <h2>Şifre Değiştir</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Yeni Kullanıcı Adı</label>
+            <input type="text" id="newUser" placeholder="admin"/>
+          </div>
+          <div class="form-group">
+            <label>Mevcut Şifre</label>
+            <input type="password" id="oldPass" placeholder="••••••••"/>
+          </div>
+          <div class="form-group">
+            <label>Yeni Şifre</label>
+            <input type="password" id="newPass" placeholder="••••••••"/>
+          </div>
+          <div class="form-group">
+            <label>Yeni Şifre (Tekrar)</label>
+            <input type="password" id="newPass2" placeholder="••••••••"/>
+          </div>
+        </div>
+        <div id="settingsMsg" style="display:none;margin-bottom:1rem;padding:.6rem 1rem;border-radius:8px;font-size:.85rem;"></div>
+        <button class="btn-primary" id="saveSettingsBtn">💾 Kaydet</button>
+      </div>
+      <div class="form-card" style="margin-top:1.5rem">
+        <h2>Veri Yönetimi</h2>
+        <p style="color:#777;margin-bottom:1.2rem;font-size:.9rem">Tüm araç değişikliklerini sıfırla, orijinal veriye dön.</p>
+        <button class="btn-danger" id="resetDataBtn">⚠️ Tüm Değişiklikleri Sıfırla</button>
+      </div>
+    </section>
+ 
   </main>
-
-  <!-- MODAL – DETAY -->
-  <div class="modal-overlay" id="detailModal">
-    <div class="modal">
-      <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
-      <div class="modal-img-wrap">
-        <img id="modalImg" src="" alt=""/>
+</div>
+ 
+<!-- ── DÜZENLEME MODAL ── -->
+<div class="modal-overlay" id="editModal">
+  <div class="edit-modal">
+    <div class="edit-modal-header">
+      <h2 id="editTitle">Araç Düzenle</h2>
+      <button class="btn-close" id="closeEdit">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Araç Adı</label>
+        <input type="text" id="eName"/>
       </div>
-      <div class="modal-body">
-        <div class="modal-badge" id="modalCat"></div>
-        <h2 id="modalTitle"></h2>
-        <p class="modal-price" id="modalPrice"></p>
-        <div class="specs" id="modalSpecs"></div>
-        <button class="order-btn" onclick="openOrder()">📋 Sipariş Oluştur</button>
+      <div class="form-group">
+        <label>Fiyat</label>
+        <input type="text" id="ePrice"/>
       </div>
     </div>
-  </div>
-
-  <!-- MODAL – SİPARİŞ -->
-  <div class="modal-overlay" id="orderModal">
-    <div class="modal modal-order">
-      <button class="modal-close" onclick="closeModal('orderModal')">✕</button>
-      <h2>Sipariş Formu</h2>
-      <p id="orderVehicleName" class="order-vehicle-name"></p>
-      <div class="form-group">
-        <label>Ad</label>
-        <input type="text" id="firstName" placeholder="Adınız"/>
-      </div>
-      <div class="form-group">
-        <label>Soyad</label>
-        <input type="text" id="lastName" placeholder="Soyadınız"/>
-      </div>
-      <div class="form-group">
-        <label>TC Kimlik No</label>
-        <input type="text" id="tcNo" placeholder="12345678901" maxlength="11"/>
-      </div>
-      <div class="form-group">
-        <label>Telefon</label>
-        <input type="tel" id="phone" placeholder="05XX XXX XX XX"/>
-      </div>
-      <div class="form-group">
-        <label>E-posta</label>
-        <input type="email" id="email" placeholder="ornek@mail.com"/>
-      </div>
-      <button class="order-btn" onclick="submitOrder()">✅ Siparişi Onayla</button>
+    <div id="editSpecsGrid" class="form-grid" style="margin-top:1rem"></div>
+    <div class="form-group" style="margin-top:1rem">
+      <label>Fotoğraf URL</label>
+      <input type="text" id="eImg"/>
     </div>
+    <button class="btn-primary" id="saveEditBtn" style="margin-top:1.5rem;width:100%">💾 Kaydet</button>
   </div>
-
-  <!-- MODAL – BAŞARI -->
-  <div class="modal-overlay" id="successModal">
-    <div class="modal modal-success">
-      <div class="success-icon">✅</div>
-      <h2>Sipariş Alındı!</h2>
-      <p id="successMsg"></p>
-      <button class="order-btn" onclick="closeModal('successModal')">Tamam</button>
-    </div>
-  </div>
-
-  <footer>
-    <p>© 2025 VehicleHub — Tüm hakları saklıdır.</p>
-  </footer>
-
-  <script src="script.js"></script>
+</div>
+ 
+<script src="script.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>
