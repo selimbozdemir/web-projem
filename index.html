@@ -865,11 +865,38 @@ let vehicles = [
   { id:90,cat:"motor",name:"Honda Gold Wing Tour",price:"1.900.000 ₺",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRxXdapw5MqF0FKDHJ_c7uwUnEjQg_VePykA&s",specs:{"Yıl":"2024","Km":"0 km","Motor":"1833cc Flat-6","Güç":"126 HP","Vites":"7 DCT","Yakıt":"Benzin","Renk":"Pearl Glare White","Garanti":"2 Yıl"}}
 ];
 
+// ======================================================
+//  LOCALSTORAGE PERSISTENCE
+// ======================================================
+const STORAGE_KEY = "vehiclehub_vehicles";
+const STORAGE_NEXTID = "vehiclehub_nextid";
+
+function saveToStorage() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
+  localStorage.setItem(STORAGE_NEXTID, nextId);
+}
+
+function loadFromStorage() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const savedId = localStorage.getItem(STORAGE_NEXTID);
+    if (saved) {
+      vehicles = JSON.parse(saved);
+      nextId = savedId ? parseInt(savedId) : (Math.max(...vehicles.map(v=>v.id)) + 1);
+    }
+  } catch(e) {
+    console.warn("Storage yüklenemedi, varsayılan veriler kullanılıyor.");
+  }
+}
+
 let nextId = 91;
 let currentCat = "all";
 let currentSearch = "";
 let selectedVehicle = null;
 let pendingDeleteId = null;
+
+// İlk yüklemede storage'dan al
+loadFromStorage();
 
 // ======================================================
 //  GALLERY RENDER
@@ -1043,7 +1070,6 @@ function closeAdmin() {
   document.getElementById("adminPanel").classList.remove("open");
   document.getElementById("adminToggleBtn").classList.remove("admin-active");
   document.body.style.overflow = "";
-  adminAuthenticated = false;
   render();
 }
 
@@ -1229,6 +1255,7 @@ function saveVehicle() {
     vehicles.push({ id: nextId++, cat, name, price, img, specs });
     showToast(`✅ "${name}" eklendi!`, "success");
   }
+  saveToStorage();
   closeAdminModal();
   refreshAdminData();
 }
@@ -1255,6 +1282,7 @@ function confirmDelete() {
   vehicles = vehicles.filter(x => x.id !== pendingDeleteId);
   showToast(`🗑️ "${v?.name}" silindi.`, "info");
   pendingDeleteId = null;
+  saveToStorage();
   closeAdminModal2();
   refreshAdminData();
 }
